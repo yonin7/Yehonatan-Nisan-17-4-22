@@ -21,24 +21,22 @@ const CurrentWeatherCard: React.FC<{
   const [minDegrees, setMinDegree] = useState(0);
   const [maxDegrees, setMaxDegree] = useState(0);
 
-  console.log(currentData);
-
   const { celsius } = props;
-  useEffect(() => {
-    if (celsius) {
-      setdegree(Math.round(currentData.Temperature?.Metric?.Value));
-      setMinDegree(
-        Math.round((weekData[0].Temperature.Minimum.Value - 32) * 0.5556)
-      );
-      setMaxDegree(
-        Math.round((weekData[0].Temperature.Maximum.Value - 32) * 0.5556)
-      );
-    } else {
-      setdegree(currentData.Temperature?.Imperial?.Value);
-      setMinDegree(weekData[0].Temperature.Minimum.Value);
-      setMaxDegree(weekData[0].Temperature.Maximum.Value);
-    }
-  }, [celsius]);
+  // useEffect(() => {
+  //   if (celsius) {
+  //     setdegree(Math.round(currentData.Temperature?.Metric?.Value));
+  //     setMinDegree(
+  //       Math.round((weekData[0].Temperature.Minimum.Value - 32) * 0.5556)
+  //     );
+  //     setMaxDegree(
+  //       Math.round((weekData[0].Temperature.Maximum.Value - 32) * 0.5556)
+  //     );
+  //   } else {
+  //     setdegree(currentData.Temperature?.Imperial?.Value);
+  //     setMinDegree(weekData[0].Temperature.Minimum.Value);
+  //     setMaxDegree(weekData[0].Temperature.Maximum.Value);
+  //   }
+  // }, [celsius]);
 
   return (
     <Container>

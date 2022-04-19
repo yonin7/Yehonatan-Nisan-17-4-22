@@ -80,6 +80,7 @@ export const WeekCardWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 40%;
+  color: #fff;
   @media (max-width: 940px) {
     flex-direction: column;
     justify-content: center;

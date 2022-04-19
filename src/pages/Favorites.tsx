@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import Card from '../components/Card';
+import FavoritesCard from '../components/FavoritesCard';
 import { MainWrapper, CardsContainer, Cards } from './FavoritesStyles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { weatherActions } from '../store/slices/weather';
@@ -10,9 +10,10 @@ const Favorites = () => {
   const { favorites }: any = useSelector<{ weather: { favorites: string[] } }>(
     (state) => state.weather
   );
+  console.log(favorites);
 
-  const favoriteHandler = () => {
-    dispatch(weatherActions.removeFromFavorites(favorites[0]) as any);
+  const favoriteHandler = (data: any) => {
+    dispatch(weatherActions.removeFromFavorites(data) as any);
   };
   return (
     <MainWrapper>
@@ -20,18 +21,14 @@ const Favorites = () => {
         {favorites.map((city: any) => (
           <Cards>
             <FavoriteIcon
-              onClick={favoriteHandler}
-              sx={{ position: 'absolute', top: 0, left: 0 }}
+              onClick={() => favoriteHandler(city)}
+              sx={{ position: 'absolute', top: '10px', left: '10px' }}
             />
-            <Card
-              celsius={false}
-              key={city.EpochDate}
-              day={city.Date}
-              dayTitle={city.Day.IconPhrase}
-              nightTitle={city.Night.IconPhrase}
-              img={city.WeatherIcon}
-              backImg={city.backImg}
-              Temperature={city.Temperature}
+            <FavoritesCard
+              key={city.id}
+              id={city.id}
+              city={city.name}
+              temperature={city.temperature}
             />
           </Cards>
         ))}

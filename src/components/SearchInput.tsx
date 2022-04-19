@@ -10,9 +10,10 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const SearchInput: React.FC<{ setAddToFav: (bool: boolean) => void }> = (
-  props
-) => {
+const SearchInput: React.FC<{
+  setAddToFav: (bool: boolean) => void;
+  cityData: (data: any) => void;
+}> = (props) => {
   const dispatch = useDispatch();
   const { cities }: any = useSelector<{ weather: { cities: string[] } }>(
     (state) => state.weather
@@ -36,11 +37,14 @@ const SearchInput: React.FC<{ setAddToFav: (bool: boolean) => void }> = (
     setCity(location);
   };
   const selectedCityHandler = (e: any, value: any) => {
-    console.log(value.Key);
-    dispatch(fetchCurrentWeather(value.Key) as any);
-    dispatch(fetchWeekWeather(value.Key) as any);
-    const isFav = favorites.find((city: any) => value.Key === city);
-    if (isFav) props.setAddToFav(false);
+    props.cityData(value);
+    dispatch(fetchCurrentWeather(value) as any);
+    dispatch(fetchWeekWeather(value) as any);
+    const isFav = favorites.find((city: any) => value.Key === city.id);
+
+    if (isFav) {
+      props.setAddToFav(false);
+    }
   };
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>

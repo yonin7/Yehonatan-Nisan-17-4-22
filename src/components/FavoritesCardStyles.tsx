@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   text-align: center;
   width: 10rem;
@@ -13,5 +13,6 @@ export const Container = styled.div`
     Ubuntu, Cantarell, 'Fira Sans', sans-serif;
   font-width: 400;
   line-height: 20px;
-  font-size: 20px;
+  font-size: 1.3rem;
+  color: black;
 `;

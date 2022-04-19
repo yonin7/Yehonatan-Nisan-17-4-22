@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+type favorite = {
+  id: string;
+  name: string;
+  weather: string;
+};
 const initialState = {
   currentData: {},
   weekData: [] as any,
@@ -19,14 +23,13 @@ const weatherSlice = createSlice({
     },
     loadCitiesData(state, action) {
       state.cities = action.payload;
-      console.log(state.cities);
     },
     addToFavorites(state, action) {
       state.favorites = state.favorites.concat(action.payload);
     },
     removeFromFavorites(state, action) {
       const tempCities = state.favorites.filter(
-        (city: any) => city.Link !== action.payload.Link
+        (city: any) => city.id !== action.payload.id
       );
       state.favorites = tempCities;
     },

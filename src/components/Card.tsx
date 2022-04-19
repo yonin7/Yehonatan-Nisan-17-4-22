@@ -46,25 +46,3 @@ const Card: React.FC<{
 };
 
 export default Card;
-
-// import { useDispatch } from 'react-redux';
-
-// const Card: React.FC<{
-//   title: string;
-//   img: string;
-//   backImg: string;
-//   degrees: number;
-// }> = (props) => {
-//   return (
-//     <div>
-//       <h3>{props.day}</h3>
-//       <div>
-//         <img src={props.img} />
-//         <span>{props.degrees}c</span>
-//       </div>
-//       <h3>{props.title}</h3>
-//     </div>
-//   );
-// };
-
-// export default Card;
