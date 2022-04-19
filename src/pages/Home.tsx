@@ -5,7 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import Card from '../components/Card';
 import CurrentWeatherCard from '../components/CurrentWeatherCard';
 import SearchInput from '../components/SearchInput';
-
+import {
+  fetchCurrentWeather,
+  fetchWeekWeather,
+  fetchCities,
+} from '../store/actions';
 import { MainWrapper, CardWrapper, WeekCardWrapper } from './HomeStyles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -36,6 +40,19 @@ const Home = () => {
   );
   const [isNight, setIsNight] = useState(true);
   const [cityData, setCityData] = useState({} as any);
+
+  console.log(cityData);
+
+  const { state } = location;
+
+  console.log(state);
+
+  useEffect(() => {
+    if (state) {
+      dispatch(fetchCurrentWeather(state.city) as any);
+      dispatch(fetchWeekWeather(state.city) as any);
+    }
+  }, [state, dispatch]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -83,8 +100,8 @@ const Home = () => {
     console.log(cityData);
 
     const favData = {
-      id: cityData.Key,
-      name: cityData.LocalizedName,
+      Key: cityData.Key,
+      LocalizedName: cityData.LocalizedName,
       temperature: currentData.Temperature.Metric.Value,
     };
     if (!addToFav) {
@@ -129,11 +146,12 @@ const Home = () => {
             display: 'flex',
             justifyContent: 'space-between',
             position: 'absolute',
+            top: '1rem',
             zIndex: '2',
           }}
         >
           {addToFav ? (
-            <FavoriteIcon onClick={favoriteHandler} sx={{}} />
+            <FavoriteIcon onClick={favoriteHandler} />
           ) : (
             <FavoriteBorderIcon onClick={favoriteHandler} />
           )}
@@ -152,9 +170,7 @@ const Home = () => {
         </div>
 
         <CurrentWeatherCard
-          city={
-            location.state ? location.state.state.name : cityData.LocalizedName
-          }
+          city={state ? state.city.LocalizedName : cityData.LocalizedName}
         />
         <WeekCardWrapper>
           {weekData.map((city: any) => (

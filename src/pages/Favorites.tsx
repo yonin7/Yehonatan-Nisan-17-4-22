@@ -15,26 +15,26 @@ const Favorites = () => {
   );
   console.log(favorites);
 
-  const favoriteHandler = (data: any) => {
-    dispatch(weatherActions.removeFromFavorites(data) as any);
-  };
+  // const favoriteHandler = (data: any) => {
+  //   dispatch(weatherActions.removeFromFavorites(data) as any);
+  // };
 
   const openCardHandler = (city: any) => {
-    history.push('/', { state: city });
+    history.push('/', { city });
   };
   return (
     <MainWrapper>
       <CardsContainer>
         {favorites.map((city: any) => (
           <Cards onClick={() => openCardHandler(city)}>
-            <FavoriteIcon
+            {/* <FavoriteIcon
               onClick={() => favoriteHandler(city)}
               sx={{ position: 'absolute', top: '10px', left: '10px' }}
-            />
+            /> */}
             <FavoritesCard
               key={city.id}
-              id={city.id}
-              city={city.name}
+              Key={city.Key}
+              LocalizedName={city.LocalizedName}
               temperature={city.temperature}
             />
           </Cards>

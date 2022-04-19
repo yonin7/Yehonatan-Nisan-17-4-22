@@ -21,8 +21,6 @@ const CurrentWeatherCard: React.FC<{
     weather: { isCelsius: boolean };
   }>((state) => state.weather);
 
-  console.log(isCelsius);
-
   const { weekData }: any = useSelector<{ weather: { weekData: string[] } }>(
     (state) => state.weather
   );
