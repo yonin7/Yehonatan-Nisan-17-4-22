@@ -1,31 +1,47 @@
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { Container } from './CardStyles';
+import pic from '../images/38.png';
 
 const Card: React.FC<{
+  celsius: boolean;
   day: string;
-  title: string;
+  dayTitle: string;
+  nightTitle: string;
   img: string;
   backImg: string;
-  degrees: number;
+  Temperature: {
+    Maximum: {
+      Value: number;
+      Unit: string;
+    };
+    Minimum: {
+      Value: number;
+      Unit: string;
+    };
+  };
 }> = (props) => {
+  const [minDegrees, setMinDegree] = useState(0);
+  const [maxDegrees, setMaxDegree] = useState(0);
+
+  const { celsius } = props;
+  useEffect(() => {
+    if (celsius) {
+      setMinDegree(Math.round((props.Temperature.Minimum.Value - 32) * 0.5556));
+      setMaxDegree(Math.round((props.Temperature.Maximum.Value - 32) * 0.5556));
+    } else {
+      setMinDegree(props.Temperature.Minimum.Value);
+      setMaxDegree(props.Temperature.Maximum.Value);
+    }
+  }, [celsius]);
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'column',
-        border: '1px solid black',
-        width: '10rem',
-        height: '15rem',
-      }}
-    >
-      <h2>{props.day}</h2>
-      <div>
-        <img src={props.img} style={{ width: '5rem', height: '5rem' }} />
-        <span>{props.degrees}c</span>
-      </div>
-      <h4>{props.title}</h4>
-    </div>
+    <Container>
+      <h5>{props.day}</h5>
+      <img src={pic} style={{ width: '5rem', height: '5rem' }} />
+      <span>
+        {`${maxDegrees}`}-{`${minDegrees}`}
+      </span>
+    </Container>
   );
 };
 

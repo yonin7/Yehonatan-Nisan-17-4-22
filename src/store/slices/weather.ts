@@ -1,39 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  data: [
-    {
-      id: '123456',
-      day: 'mon',
-      title: 'Partly cloudy',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Sun.svg/2048px-Sun.svg.png',
-      backImg:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sky.jpg/1200px-Sky.jpg',
-      degrees: 14,
-    },
-    {
-      id: '65123456',
-      day: 'tue',
-      title: 'rainy',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Sun.svg/2048px-Sun.svg.png',
-      backImg:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sky.jpg/1200px-Sky.jpg',
-      degrees: 6,
-    },
-  ],
+  currentData: {},
+  weekData: [] as any,
+  cities: [] as any,
+  favorites: [] as any,
 };
 
-const wheatherSlice = createSlice({
-  name: 'wheatherData',
+const weatherSlice = createSlice({
+  name: 'weatherData',
   initialState,
   reducers: {
+    loadCurrentData(state, action) {
+      state.currentData = action.payload;
+    },
+    loadWeekData(state, action) {
+      state.weekData = action.payload.DailyForecasts;
+    },
+    loadCitiesData(state, action) {
+      state.cities = action.payload;
+      console.log(state.cities);
+    },
     addToFavorites(state, action) {
-      console.log();
+      state.favorites = state.favorites.concat(action.payload);
     },
     removeFromFavorites(state, action) {
-      console.log();
+      const tempCities = state.favorites.filter(
+        (city: any) => city.Link !== action.payload.Link
+      );
+      state.favorites = tempCities;
     },
   },
 });
 
-export default wheatherSlice.reducer;
+export const weatherActions = weatherSlice.actions;
+
+export default weatherSlice.reducer;
