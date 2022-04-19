@@ -119,7 +119,7 @@ const Home = () => {
         ) : (
           <FavoriteBorderIcon onClick={favoriteHandler} />
         )}
-        <CurrentWeatherCard celsius={true} />
+        <CurrentWeatherCard celsius={true} city={cityData.LocalizedName} />
         <WeekCardWrapper>
           {weekData.map((city: any) => (
             <Card

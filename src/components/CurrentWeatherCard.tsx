@@ -9,6 +9,7 @@ import {
 
 const CurrentWeatherCard: React.FC<{
   celsius: boolean;
+  city: string;
 }> = (props) => {
   const { currentData }: any = useSelector<{
     weather: { currentData: string[] };
@@ -18,30 +19,20 @@ const CurrentWeatherCard: React.FC<{
     (state) => state.weather
   );
   const [degrees, setdegree] = useState(0);
-  const [minDegrees, setMinDegree] = useState(0);
-  const [maxDegrees, setMaxDegree] = useState(0);
 
   const { celsius } = props;
   // useEffect(() => {
   //   if (celsius) {
   //     setdegree(Math.round(currentData.Temperature?.Metric?.Value));
-  //     setMinDegree(
-  //       Math.round((weekData[0].Temperature.Minimum.Value - 32) * 0.5556)
-  //     );
-  //     setMaxDegree(
-  //       Math.round((weekData[0].Temperature.Maximum.Value - 32) * 0.5556)
-  //     );
   //   } else {
   //     setdegree(currentData.Temperature?.Imperial?.Value);
-  //     setMinDegree(weekData[0].Temperature.Minimum.Value);
-  //     setMaxDegree(weekData[0].Temperature.Maximum.Value);
   //   }
   // }, [celsius]);
 
   return (
     <Container>
       <div>
-        <h4>Tel Aviv</h4>
+        <h4>{props.city}</h4>
         <p>{currentData.LocalObservationDateTime}</p>
         <img
           src={`/images/weathericons/${weekData.WeatherIcon}.svg`}
@@ -51,7 +42,6 @@ const CurrentWeatherCard: React.FC<{
       </div>
       <TemperatureContainer>
         <Temperature>{degrees}</Temperature>
-        <p>{` ${maxDegrees}/${minDegrees}`}</p>
       </TemperatureContainer>
     </Container>
   );

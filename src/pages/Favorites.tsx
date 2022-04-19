@@ -3,6 +3,7 @@ import FavoritesCard from '../components/FavoritesCard';
 import { MainWrapper, CardsContainer, Cards } from './FavoritesStyles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { weatherActions } from '../store/slices/weather';
+import { Link } from 'react-router-dom';
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -15,11 +16,15 @@ const Favorites = () => {
   const favoriteHandler = (data: any) => {
     dispatch(weatherActions.removeFromFavorites(data) as any);
   };
+
+  const openCardHandler = () => {
+    return <Link to="/"></Link>;
+  };
   return (
     <MainWrapper>
       <CardsContainer>
         {favorites.map((city: any) => (
-          <Cards>
+          <Cards onClick={openCardHandler}>
             <FavoriteIcon
               onClick={() => favoriteHandler(city)}
               sx={{ position: 'absolute', top: '10px', left: '10px' }}
