@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchCurrentWeather, fetchWeekWeather } from '../store/actions';
 import {
   Container,
   Temperature,
@@ -8,31 +9,36 @@ import {
 } from './CurrentWeatherCardStyles';
 
 const CurrentWeatherCard: React.FC<{
-  celsius: boolean;
   city: string;
 }> = (props) => {
+  const dispatch = useDispatch();
+
   const { currentData }: any = useSelector<{
     weather: { currentData: string[] };
   }>((state) => state.weather);
 
+  const { isCelsius }: any = useSelector<{
+    weather: { isCelsius: boolean };
+  }>((state) => state.weather);
+
+  console.log(isCelsius);
+
   const { weekData }: any = useSelector<{ weather: { weekData: string[] } }>(
     (state) => state.weather
   );
-  const [degrees, setdegree] = useState(0);
+  const [cityName, setdegree] = useState(0);
 
-  const { celsius } = props;
-  // useEffect(() => {
-  //   if (celsius) {
-  //     setdegree(Math.round(currentData.Temperature?.Metric?.Value));
-  //   } else {
-  //     setdegree(currentData.Temperature?.Imperial?.Value);
-  //   }
-  // }, [celsius]);
+  // const { celsius } = props;
+  useEffect(() => {
+    const defaultCity = { LocalizedName: 'Tel Aviv', Key: '215854' };
+    dispatch(fetchCurrentWeather(defaultCity) as any);
+    dispatch(fetchWeekWeather(defaultCity) as any);
+  }, []);
 
   return (
     <Container>
       <div>
-        <h4>{props.city}</h4>
+        <h4>{props.city ? props.city : 'Tel Aviv'}</h4>
         <p>{currentData.LocalObservationDateTime}</p>
         <img
           src={`/images/weathericons/${weekData.WeatherIcon}.svg`}
@@ -41,7 +47,11 @@ const CurrentWeatherCard: React.FC<{
         <h4>{currentData.WeatherText}</h4>
       </div>
       <TemperatureContainer>
-        <Temperature>{degrees}</Temperature>
+        <Temperature>
+          {isCelsius
+            ? Math.round(currentData.Temperature?.Metric?.Value)
+            : Math.round(currentData.Temperature?.Imperial?.Value)}
+        </Temperature>
       </TemperatureContainer>
     </Container>
   );

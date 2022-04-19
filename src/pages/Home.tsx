@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
+
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '../components/Card';
 import CurrentWeatherCard from '../components/CurrentWeatherCard';
@@ -9,12 +11,16 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import { weatherActions } from '../store/slices/weather';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const location: any = useLocation();
 
+  // console.log(location.state.state.name);
   const { weekData }: any = useSelector<{ weather: { weekData: string[] } }>(
     (state) => state.weather
   );
@@ -87,6 +93,12 @@ const Home = () => {
     }
     dispatch(weatherActions.removeFromFavorites(favData) as any);
   };
+
+  const degreesToggleHandler = () => {
+    console.log(1);
+
+    dispatch(weatherActions.temperatureToggle());
+  };
   return (
     <MainWrapper>
       <Box
@@ -111,15 +123,39 @@ const Home = () => {
       </Box>
 
       <CardWrapper weather={weatherImg} city={cityImg}>
-        {addToFav ? (
-          <FavoriteIcon
-            onClick={favoriteHandler}
-            sx={{ position: 'absolute', zIndex: '2' }}
-          />
-        ) : (
-          <FavoriteBorderIcon onClick={favoriteHandler} />
-        )}
-        <CurrentWeatherCard celsius={true} city={cityData.LocalizedName} />
+        <div
+          style={{
+            width: '85%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            position: 'absolute',
+            zIndex: '2',
+          }}
+        >
+          {addToFav ? (
+            <FavoriteIcon onClick={favoriteHandler} sx={{}} />
+          ) : (
+            <FavoriteBorderIcon onClick={favoriteHandler} />
+          )}
+          <FormGroup>
+            {/* <Typography>Off</Typography>
+            <Switch defaultChecked onChange={degreesToggleHandler} />
+            <Typography>On</Typography> */}
+            <FormControlLabel
+              control={
+                <Switch defaultChecked onChange={degreesToggleHandler} />
+              }
+              label="C°"
+            />
+            {/* <Switch defaultChecked onChange={degreesToggleHandler} /> */}
+          </FormGroup>
+        </div>
+
+        <CurrentWeatherCard
+          city={
+            location.state ? location.state.state.name : cityData.LocalizedName
+          }
+        />
         <WeekCardWrapper>
           {weekData.map((city: any) => (
             <Card

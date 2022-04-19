@@ -4,7 +4,7 @@ export const fetchCities = (location: string) => {
   return async (dispatch: any) => {
     const fetchCitiesData = async () => {
       const fetchCity = await fetch(
-        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=2p3VA9cjo8gWbCpyKbBqGWWNp7z5CuRE&q=${location}`
+        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=nE80NogMsaAGjkVaejrJ6xgAMXa0n4Cv&q=${location}`
       );
 
       if (!fetchCity.ok) {
@@ -30,11 +30,13 @@ export const fetchCurrentWeather = (location: {
   LocalizedName: string;
 }) => {
   return async (dispatch: any) => {
+    console.log(location);
+
     const locationKey = location.Key;
     const locationName = location.LocalizedName;
     const fetchData = async () => {
       const response = await fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=2p3VA9cjo8gWbCpyKbBqGWWNp7z5CuRE`
+        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=nE80NogMsaAGjkVaejrJ6xgAMXa0n4Cv`
       );
 
       if (!response.ok) {
@@ -60,11 +62,13 @@ export const fetchWeekWeather = (location: {
   LocalizedName: string;
 }) => {
   return async (dispatch: any) => {
+    console.log(location);
+
     const locationKey = location.Key;
     const locationName = location.LocalizedName;
     const fetchData = async () => {
       const response = await fetch(
-        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=2p3VA9cjo8gWbCpyKbBqGWWNp7z5CuRE`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=nE80NogMsaAGjkVaejrJ6xgAMXa0n4Cv`
       );
 
       if (!response.ok) {

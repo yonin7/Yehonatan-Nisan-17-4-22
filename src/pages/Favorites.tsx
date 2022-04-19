@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import FavoritesCard from '../components/FavoritesCard';
 import { MainWrapper, CardsContainer, Cards } from './FavoritesStyles';
@@ -6,6 +7,7 @@ import { weatherActions } from '../store/slices/weather';
 import { Link } from 'react-router-dom';
 
 const Favorites = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const { favorites }: any = useSelector<{ weather: { favorites: string[] } }>(
@@ -17,14 +19,14 @@ const Favorites = () => {
     dispatch(weatherActions.removeFromFavorites(data) as any);
   };
 
-  const openCardHandler = () => {
-    return <Link to="/"></Link>;
+  const openCardHandler = (city: any) => {
+    history.push('/', { state: city });
   };
   return (
     <MainWrapper>
       <CardsContainer>
         {favorites.map((city: any) => (
-          <Cards onClick={openCardHandler}>
+          <Cards onClick={() => openCardHandler(city)}>
             <FavoriteIcon
               onClick={() => favoriteHandler(city)}
               sx={{ position: 'absolute', top: '10px', left: '10px' }}

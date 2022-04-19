@@ -9,6 +9,7 @@ const initialState = {
   weekData: [] as any,
   cities: [] as any,
   favorites: [] as any,
+  isCelsius: true,
 };
 
 const weatherSlice = createSlice({
@@ -32,6 +33,11 @@ const weatherSlice = createSlice({
         (city: any) => city.id !== action.payload.id
       );
       state.favorites = tempCities;
+    },
+    temperatureToggle(state) {
+      console.log(state.isCelsius);
+
+      state.isCelsius = !state.isCelsius;
     },
   },
 });
