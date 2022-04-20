@@ -17,6 +17,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { weatherActions } from '../store/slices/weather';
+import Skeleton from '@mui/material/Skeleton';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -95,6 +96,9 @@ const Home = () => {
     }
   }, [dispatch, currentData, nigthGifs, dayGifs]);
 
+  console.log(currentData);
+  console.log(weekData);
+
   const [addToFav, setAddToFav] = useState(false);
 
   const favoriteToggleHandler = () => {
@@ -146,43 +150,52 @@ const Home = () => {
           <SearchInput cityData={setCityData} setAddToFav={setAddToFav} />
         </Grid>
       </Box>
-
       <CardWrapper weather={weatherImg} city={cityImg}>
-        <div
-          style={{
-            width: '85%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            position: 'absolute',
-            top: '1rem',
-            zIndex: '2',
-          }}
-        >
-          {addToFav ? (
-            <FavoriteIcon onClick={favoriteToggleHandler} />
-          ) : (
-            <FavoriteBorderIcon onClick={favoriteToggleHandler} />
-          )}
-          <FormGroup sx={{ flexDirection: 'row' }}>
-            <span>°F </span>
-            <FormControlLabel
-              control={
-                <Switch defaultChecked onChange={degreesToggleHandler} />
-              }
-              label="C°"
-            />
-          </FormGroup>
-        </div>
-
-        <CurrentWeatherCard
-          city={state ? state.city.LocalizedName : cityData.LocalizedName}
-        />
-        <WeekCardWrapper>
-          {weekData.map((city: any, index: number) => {
-            return <Card key={city.Link} id={index} />;
-          })}
-        </WeekCardWrapper>
+        {currentData ? (
+          <div
+            style={{
+              width: '85%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              position: 'absolute',
+              top: '1rem',
+              zIndex: '2',
+            }}
+          >
+            {addToFav ? (
+              <FavoriteIcon onClick={favoriteToggleHandler} />
+            ) : (
+              <FavoriteBorderIcon onClick={favoriteToggleHandler} />
+            )}
+            <FormGroup sx={{ flexDirection: 'row' }}>
+              <span>°F </span>
+              <FormControlLabel
+                control={
+                  <Switch defaultChecked onChange={degreesToggleHandler} />
+                }
+                label="C°"
+              />
+            </FormGroup>
+          </div>
+        ) : null}
+        {currentData ? (
+          <Skeleton animation="wave" />
+        ) : (
+          <CurrentWeatherCard
+            city={state ? state.city.LocalizedName : cityData.LocalizedName}
+          />
+        )}
+        {currentData ? (
+          <Skeleton animation="wave" />
+        ) : (
+          <WeekCardWrapper>
+            {weekData.map((city: any, index: number) => {
+              return <Card key={city.Link} id={index} />;
+            })}
+          </WeekCardWrapper>
+        )}
       </CardWrapper>
+      )
     </MainWrapper>
   );
 };

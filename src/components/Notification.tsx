@@ -33,9 +33,6 @@ const Notification = () => {
 
   const action = (
     <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
       <IconButton
         size="small"
         aria-label="close"
@@ -50,8 +47,9 @@ const Notification = () => {
   return (
     <div>
       <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={error}
-        autoHideDuration={6000}
+        autoHideDuration={1500}
         onClose={handleClose}
         action={action}
       >

@@ -20,7 +20,7 @@ const Card: React.FC<{ id: number }> = (props) => {
       setMinDegree(weekData[props.id].Temperature.Minimum.Value);
       setMaxDegree(weekData[props.id].Temperature.Maximum.Value);
     }
-  }, [isCelsius, weekData, setMaxDegree, setMinDegree]);
+  }, [isCelsius, weekData, setMaxDegree, setMinDegree, props]);
 
   let img =
     parseInt(weekData[props.id].Night.Icon) < 9
