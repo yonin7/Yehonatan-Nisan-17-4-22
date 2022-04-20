@@ -4,12 +4,9 @@ export const fetchCities = (location: string) => {
   return async (dispatch: any) => {
     const fetchCitiesData = async () => {
       const fetchCity = await fetch(
-        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=J4QAmLEoLd0V5V2ViAFFKdJHLEL0stPM&q=${location}`
+        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GdGNkzFLPXJEuiDzkUgwJHDPjVGbDtVl&q=${location}`
       );
-
-      if (!fetchCity.ok) {
-        throw new Error('Could not fetch city data!');
-      }
+      console.log(fetchCity);
 
       const cityData = await fetchCity.json();
 
@@ -18,9 +15,15 @@ export const fetchCities = (location: string) => {
 
     try {
       const citiesData = await fetchCitiesData();
+      if (!citiesData || citiesData.length === 0) {
+        console.log(2);
+
+        dispatch(weatherActions.errorToggle('City was not found!'));
+        return;
+      }
       dispatch(weatherActions.loadCitiesData(citiesData) as any);
     } catch (err) {
-      console.log(err);
+      dispatch(weatherActions.errorToggle('Server Problem!'));
     }
   };
 };
@@ -33,12 +36,8 @@ export const fetchCurrentWeather = (location: {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=J4QAmLEoLd0V5V2ViAFFKdJHLEL0stPM`
+        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=GdGNkzFLPXJEuiDzkUgwJHDPjVGbDtVl`
       );
-
-      if (!response.ok) {
-        throw new Error('Could not fetch weather data!');
-      }
 
       const data = await response.json();
 
@@ -47,10 +46,18 @@ export const fetchCurrentWeather = (location: {
 
     try {
       const weatherData = await fetchData();
+      if (!weatherData || weatherData.length === 0) {
+        dispatch(
+          weatherActions.errorToggle(
+            'Could not reach the current weather for this city!'
+          )
+        );
+        return;
+      }
 
       dispatch(weatherActions.loadCurrentData(weatherData[0]) as any);
     } catch (err) {
-      console.log(err);
+      dispatch(weatherActions.errorToggle('Server Problem!'));
     }
   };
 };
@@ -62,12 +69,8 @@ export const fetchWeekWeather = (location: {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
-        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=J4QAmLEoLd0V5V2ViAFFKdJHLEL0stPM`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=GdGNkzFLPXJEuiDzkUgwJHDPjVGbDtVl`
       );
-
-      if (!response.ok) {
-        throw new Error('Could not fetch weather data!');
-      }
 
       const data = await response.json();
       return data;
@@ -75,9 +78,17 @@ export const fetchWeekWeather = (location: {
 
     try {
       const weatherData = await fetchData();
+      if (!weatherData || weatherData.length === 0) {
+        dispatch(
+          weatherActions.errorToggle(
+            'Could not reach weather of the next 5 days for this city!'
+          )
+        );
+        return;
+      }
       dispatch(weatherActions.loadWeekData(weatherData) as any);
     } catch (err) {
-      console.log(err);
+      dispatch(weatherActions.errorToggle('Server Problem!'));
     }
   };
 };

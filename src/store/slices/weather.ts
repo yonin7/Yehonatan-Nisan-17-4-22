@@ -30,6 +30,7 @@ const initialState = {
   isCelsius: true,
   dayGifs: dayGifs,
   nigthGifs: nigthGifs,
+  error: null as any,
 };
 
 const weatherSlice = createSlice({
@@ -56,6 +57,9 @@ const weatherSlice = createSlice({
     },
     temperatureToggle(state) {
       state.isCelsius = !state.isCelsius;
+    },
+    errorToggle(state, action) {
+      state.error = action.payload;
     },
   },
 });

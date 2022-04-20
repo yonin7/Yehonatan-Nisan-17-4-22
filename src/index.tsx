@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import './index.css';
 import App from './App';
+import Notification from './components/Notification';
 import store from './store';
 
 const root = ReactDOM.createRoot(
@@ -13,5 +14,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <App />
+    <Notification />
   </Provider>
 );

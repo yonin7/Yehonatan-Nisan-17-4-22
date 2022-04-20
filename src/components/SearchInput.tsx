@@ -22,11 +22,15 @@ const SearchInput: React.FC<{
   const [city, setCity] = useState('');
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(fetchCities(city) as any);
-    }, 1000);
+    const delayDebounceFn = setTimeout(() => {
+      if (city) {
+        dispatch(fetchCities(city) as any);
+      }
+    }, 400);
 
-    clearTimeout();
+    return function cleanup() {
+      clearTimeout(delayDebounceFn);
+    };
   }, [city, dispatch]);
 
   const searchHandler = (location: string) => {
@@ -52,7 +56,7 @@ const SearchInput: React.FC<{
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search input"
+            label="Search for a City..."
             InputLabelProps={{ style: { color: '#fff' } }}
             InputProps={{
               ...params.InputProps,
