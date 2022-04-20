@@ -53,6 +53,7 @@ const CurrentWeatherCard: React.FC<{
         {!img ? null : (
           <img
             src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
+            alt="weather icon"
             style={{ width: '13rem', height: '8rem' }}
           />
         )}

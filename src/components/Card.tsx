@@ -38,6 +38,7 @@ const Card: React.FC<{ id: number }> = (props) => {
       <h5>{weekData[props.id].Date}</h5>
       <img
         src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
+        alt="weather icon"
         style={{ width: '8rem', height: '5rem' }}
       />
       <span>

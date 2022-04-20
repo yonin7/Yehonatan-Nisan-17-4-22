@@ -96,9 +96,6 @@ const Home = () => {
     }
   }, [dispatch, currentData, nigthGifs, dayGifs]);
 
-  console.log(currentData);
-  console.log(weekData);
-
   const [addToFav, setAddToFav] = useState(false);
 
   const favoriteToggleHandler = () => {
@@ -127,7 +124,7 @@ const Home = () => {
       }
     };
     cityInFavHandler();
-  }, [addToFav, cityData]);
+  }, [addToFav, cityData, currentData, dispatch, favorites]);
   return (
     <MainWrapper main={mainImg}>
       <Box
