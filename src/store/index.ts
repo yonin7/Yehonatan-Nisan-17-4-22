@@ -9,4 +9,8 @@ const storeConfigurations = {
 
 const store = configureStore(storeConfigurations);
 
+type RootState = ReturnType<typeof store.getState>;
+
+export const allData = (state: RootState) => state.weather;
+
 export default store;

@@ -18,6 +18,17 @@ export const Container = styled.div`
     font-size: 0.85rem;
   }
 `;
+export const DeatailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  @media (max-width: 940px) {
+    font-width: 200;
+    line-height: 10px;
+    font-size: 0.85rem;
+  }
+`;
 export const TemperatureContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,7 +42,7 @@ export const TemperatureContainer = styled.div`
     font-size: 2rem;
   }
 `;
-export const Temperature = styled.h4`
+export const Temperatures = styled.h4`
   font-width: 100;
   font-size: 8rem;
   margin: 0;

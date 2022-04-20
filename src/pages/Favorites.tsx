@@ -1,44 +1,39 @@
 import { useHistory } from 'react-router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { allData } from '../store';
+
 import FavoritesCard from '../components/FavoritesCard';
 import { MainWrapper, CardsContainer, Cards } from './FavoritesStyles';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { weatherActions } from '../store/slices/weather';
-import { Link } from 'react-router-dom';
 
 const Favorites = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  const { favorites }: any = useSelector<{ weather: { favorites: string[] } }>(
-    (state) => state.weather
-  );
-  console.log(favorites);
-
-  // const favoriteHandler = (data: any) => {
-  //   dispatch(weatherActions.removeFromFavorites(data) as any);
-  // };
-
+  const { favorites } = useSelector(allData);
   const openCardHandler = (city: any) => {
     history.push('/', { city });
   };
+  const defaultCity = { LocalizedName: 'Tel Aviv', Key: '215854' };
+
   return (
     <MainWrapper>
       <CardsContainer>
-        {favorites.map((city: any) => (
-          <Cards onClick={() => openCardHandler(city)}>
-            {/* <FavoriteIcon
-              onClick={() => favoriteHandler(city)}
-              sx={{ position: 'absolute', top: '10px', left: '10px' }}
-            /> */}
-            <FavoritesCard
-              key={city.id}
-              Key={city.Key}
-              LocalizedName={city.LocalizedName}
-              temperature={city.temperature}
-            />
-          </Cards>
-        ))}
+        {favorites.map((city: any) => {
+          return (
+            <Cards
+              key={city.Key ? city.LocalizedName : defaultCity.Key}
+              onClick={() => openCardHandler(city)}
+            >
+              <FavoritesCard
+                Key={city.Key ? city.LocalizedName : defaultCity.Key}
+                LocalizedName={
+                  city.LocalizedName
+                    ? city.LocalizedName
+                    : defaultCity.LocalizedName
+                }
+                temperature={city.temperature}
+              />
+            </Cards>
+          );
+        })}
       </CardsContainer>
     </MainWrapper>
   );

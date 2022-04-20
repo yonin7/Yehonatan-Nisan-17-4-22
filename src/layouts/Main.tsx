@@ -13,7 +13,11 @@ interface IRouteMainLayoutWrapper extends RouteProps {
 const Main = ({ children }: IMainProps) => {
   return (
     <>
-      <Box sx={{ flowGrow: 1 }}>
+      <Box
+        sx={{
+          flowGrow: 1,
+        }}
+      >
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6">Herolo Home Assignment!</Typography>

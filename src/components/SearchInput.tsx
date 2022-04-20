@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { allData } from '../store';
+
 import {
   fetchCurrentWeather,
   fetchWeekWeather,
@@ -15,12 +17,7 @@ const SearchInput: React.FC<{
   cityData: (data: any) => void;
 }> = (props) => {
   const dispatch = useDispatch();
-  const { cities }: any = useSelector<{ weather: { cities: string[] } }>(
-    (state) => state.weather
-  );
-  const { favorites }: any = useSelector<{ weather: { favorites: string[] } }>(
-    (state) => state.weather
-  );
+  const { cities, currentData, favorites } = useSelector(allData);
 
   const [city, setCity] = useState('');
 
@@ -33,21 +30,16 @@ const SearchInput: React.FC<{
   }, [city, dispatch]);
 
   const searchHandler = (location: string) => {
-    props.setAddToFav(false);
     setCity(location);
   };
   const selectedCityHandler = (e: any, value: any) => {
+    props.setAddToFav(favorites.find((city: any) => value.Key === city.Key));
     props.cityData(value);
     dispatch(fetchCurrentWeather(value) as any);
     dispatch(fetchWeekWeather(value) as any);
-    const isFav = favorites.find((city: any) => value.Key === city.id);
-
-    if (isFav) {
-      props.setAddToFav(false);
-    }
   };
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
+    <Stack spacing={2} sx={{ width: '100%' }} style={{ color: '#fff' }}>
       <Autocomplete
         onChange={selectedCityHandler}
         freeSolo
@@ -61,9 +53,14 @@ const SearchInput: React.FC<{
           <TextField
             {...params}
             label="Search input"
+            InputLabelProps={{ style: { color: '#fff' } }}
             InputProps={{
               ...params.InputProps,
               type: 'search',
+              style: {
+                border: currentData.isDayTime ? 'none' : '1px solid #fff',
+                color: currentData.isDayTime ? 'none' : '#fff',
+              },
             }}
             onChange={(e) => searchHandler(e.target.value)}
           />

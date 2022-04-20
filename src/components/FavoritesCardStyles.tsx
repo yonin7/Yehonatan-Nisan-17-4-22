@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 10rem;
+  width: 15rem;
   max-width: 100%;
   height: 100%;
   font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, 'Lucida Grande', Arial,
@@ -15,4 +15,8 @@ export const Container = styled.div`
   line-height: 20px;
   font-size: 1.3rem;
   color: black;
+
+  @media (max-width: 740px) {
+    width: 10rem;
+  }
 `;

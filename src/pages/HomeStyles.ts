@@ -1,17 +1,33 @@
 import styled from 'styled-components';
 
-type Props = {
+type mainProps = {
+  main: string;
+};
+type cardProps = {
   weather: string;
   city: string;
 };
 
-export const MainWrapper = styled.div`
+export const MainWrapper = styled.div<mainProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
   height: 90vh;
+  &:before {
+    content: '';
+    background-image: ${(props) => `url(${props.main})`};
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+  }
 
   @media (max-width: 940px) {
     height: 100%;
@@ -23,7 +39,7 @@ export const MainWrapper = styled.div`
     width: 95%;
   }
 `;
-export const CardWrapper = styled.div<Props>`
+export const CardWrapper = styled.div<cardProps>`
   display: flex;
   flex-direction: column;
   margin: 2rem;

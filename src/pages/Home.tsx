@@ -2,14 +2,12 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { allData } from '../store';
+
 import Card from '../components/Card';
 import CurrentWeatherCard from '../components/CurrentWeatherCard';
 import SearchInput from '../components/SearchInput';
-import {
-  fetchCurrentWeather,
-  fetchWeekWeather,
-  fetchCities,
-} from '../store/actions';
+import { fetchCurrentWeather, fetchWeekWeather } from '../store/actions';
 import { MainWrapper, CardWrapper, WeekCardWrapper } from './HomeStyles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -22,31 +20,20 @@ import { weatherActions } from '../store/slices/weather';
 
 const Home = () => {
   const dispatch = useDispatch();
+
   const location: any = useLocation();
-
-  // console.log(location.state.state.name);
-  const { weekData }: any = useSelector<{ weather: { weekData: string[] } }>(
-    (state) => state.weather
-  );
-  const { currentData }: any = useSelector<{
-    weather: { currentData: string[] };
-  }>((state) => state.weather);
-
+  const { weekData, currentData, dayGifs, nigthGifs, favorites } =
+    useSelector(allData);
+  const [mainImg, setMainImg] = useState('');
   const [cityImg, setCityImg] = useState(
     'https://images.jpost.com/image/upload/f_auto,fl_lossy/t_JM_ArticleMainImageFaceDetect/453218'
   );
   const [weatherImg, setWeatherImg] = useState(
     'https://64.media.tumblr.com/5a49546c22cc7dc5eeda64f34c8ee16b/tumblr_nlka5wXM4a1srpztwo1_500.gifv'
   );
-  const [isNight, setIsNight] = useState(true);
   const [cityData, setCityData] = useState({} as any);
 
-  console.log(cityData);
-
   const { state } = location;
-
-  console.log(state);
-
   useEffect(() => {
     if (state) {
       dispatch(fetchCurrentWeather(state.city) as any);
@@ -55,69 +42,90 @@ const Home = () => {
   }, [state, dispatch]);
 
   useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 4 && hour > 20) setIsNight(true);
-    else setIsNight(false);
-  }, [weekData]);
-
-  // useEffect(() => {
-  //   if (isNight) {
-  //     const status = weekData[0].Night.IconPhrase;
-  //     if (status.includes('Cloudy' || 'cloudy')) {
-  //       setWeatherImg('https://j.gifs.com/vQJxxY.gif');
-  //     } else if (status.includes('Rainy')) {
-  //       setWeatherImg(
-  //         'https://64.media.tumblr.com/5a49546c22cc7dc5eeda64f34c8ee16b/tumblr_nlka5wXM4a1srpztwo1_500.gifv'
-  //       );
-  //     }
-  //   } else {
-  //     const status = weekData[0].Day.IconPhrase;
-  //     if (status.includes('Cloudy' || 'cloudy')) {
-  //       setWeatherImg('https://j.gifs.com/vQJxxY.gif');
-  //     } else if (status.includes('Rainy')) {
-  //       setWeatherImg(
-  //         'hhttps://64.media.tumblr.com/5a49546c22cc7dc5eeda64f34c8ee16b/tumblr_nlka5wXM4a1srpztwo1_500.gifv'
-  //       );
-  //     }
-  //   }
-  // }, [isNight, weekData]);
-
-  const { favorites }: any = useSelector<{ weather: { favorites: string[] } }>(
-    (state) => state.weather
-  );
-
-  const [addToFav, setAddToFav] = useState(
-    favorites.find((city: any) => city.id === cityData.Key)
-  );
-  const cityDataHandler = (data: any) => {
-    console.log(data);
-
-    setCityData(data);
-  };
-
-  const favoriteHandler = () => {
-    setAddToFav(!addToFav);
-    console.log(cityData);
-
-    const favData = {
-      Key: cityData.Key,
-      LocalizedName: cityData.LocalizedName,
-      temperature: currentData.Temperature.Metric.Value,
-    };
-    if (!addToFav) {
-      dispatch(weatherActions.addToFavorites(favData) as any);
-      return;
+    if (currentData.IsDayTime) {
+      setMainImg(
+        'https://authenticallydel.com/wp-content/uploads/2021/06/100-things-to-do-on-a-rainy-day-1024x576.jpg'
+      );
+      if (currentData.WeatherIcon > 0 && currentData.WeatherIcon < 4) {
+        setWeatherImg(dayGifs.sunny);
+        setMainImg(
+          'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
+        );
+      }
+      if (currentData.WeatherIcon > 3 && currentData.WeatherIcon < 8) {
+        setWeatherImg(dayGifs.clouds);
+        setMainImg(
+          'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
+        );
+      }
+      if (currentData.WeatherIcon >= 8) {
+        setWeatherImg(dayGifs.Rclouds);
+      }
+      if (currentData.WeatherIcon > 11) {
+        setWeatherImg(dayGifs.fog);
+      }
+      if (currentData.WeatherIcon > 11 && currentData.WeatherIcon < 19) {
+        setWeatherImg(dayGifs.rainy);
+      }
+      if (currentData.WeatherIcon > 18 && currentData.WeatherIcon < 24) {
+        setWeatherImg(dayGifs.swon);
+      }
+      if (currentData.WeatherIcon > 23) {
+        setWeatherImg(dayGifs.ice);
+      }
+    } else {
+      setMainImg(
+        'https://cdn.mos.cms.futurecdn.net/4ai74uN2hgWvcCsie7jxUo.jpg'
+      );
+      if (currentData.WeatherIcon > 32 && currentData.WeatherIcon < 36) {
+        setWeatherImg(nigthGifs.sunny);
+      }
+      if (currentData.WeatherIcon > 35 && currentData.WeatherIcon < 39) {
+        setWeatherImg(nigthGifs.clouds);
+      }
+      if (currentData.WeatherIcon > 38 && currentData.WeatherIcon < 41) {
+        setWeatherImg(nigthGifs.rainy);
+      }
+      if (currentData.WeatherIcon > 40 && currentData.WeatherIcon < 43) {
+        setWeatherImg(nigthGifs.storm);
+      }
+      if (currentData.WeatherIcon > 42) {
+        setWeatherImg(nigthGifs.swon);
+      }
     }
-    dispatch(weatherActions.removeFromFavorites(favData) as any);
+  }, [dispatch, currentData, nigthGifs, dayGifs]);
+
+  const [addToFav, setAddToFav] = useState(false);
+
+  const favoriteToggleHandler = () => {
+    setAddToFav(!addToFav);
   };
 
   const degreesToggleHandler = () => {
-    console.log(1);
-
     dispatch(weatherActions.temperatureToggle());
   };
+
+  useEffect(() => {
+    const cityInFavHandler = () => {
+      const inFav = favorites.find((city: any) => cityData.Key === city.Key);
+
+      if (addToFav && !inFav) {
+        const favData = {
+          Key: cityData.Key,
+          LocalizedName: cityData.LocalizedName,
+          temperature: currentData.Temperature.Metric.Value,
+        };
+
+        dispatch(weatherActions.addToFavorites(favData) as any);
+        return;
+      } else if (!addToFav && inFav) {
+        setAddToFav(true);
+      }
+    };
+    cityInFavHandler();
+  }, [addToFav, cityData]);
   return (
-    <MainWrapper>
+    <MainWrapper main={mainImg}>
       <Box
         component="form"
         sx={{
@@ -135,7 +143,7 @@ const Home = () => {
           container
           style={{ position: 'relative', width: '90%', maxWidth: '53rem' }}
         >
-          <SearchInput setAddToFav={setAddToFav} cityData={cityDataHandler} />
+          <SearchInput cityData={setCityData} setAddToFav={setAddToFav} />
         </Grid>
       </Box>
 
@@ -151,21 +159,18 @@ const Home = () => {
           }}
         >
           {addToFav ? (
-            <FavoriteIcon onClick={favoriteHandler} />
+            <FavoriteIcon onClick={favoriteToggleHandler} />
           ) : (
-            <FavoriteBorderIcon onClick={favoriteHandler} />
+            <FavoriteBorderIcon onClick={favoriteToggleHandler} />
           )}
-          <FormGroup>
-            {/* <Typography>Off</Typography>
-            <Switch defaultChecked onChange={degreesToggleHandler} />
-            <Typography>On</Typography> */}
+          <FormGroup sx={{ flexDirection: 'row' }}>
+            <span>°F </span>
             <FormControlLabel
               control={
                 <Switch defaultChecked onChange={degreesToggleHandler} />
               }
               label="C°"
             />
-            {/* <Switch defaultChecked onChange={degreesToggleHandler} /> */}
           </FormGroup>
         </div>
 
@@ -173,18 +178,9 @@ const Home = () => {
           city={state ? state.city.LocalizedName : cityData.LocalizedName}
         />
         <WeekCardWrapper>
-          {weekData.map((city: any) => (
-            <Card
-              celsius={true}
-              key={city.EpochDate}
-              day={city.Date}
-              dayTitle={city.Day.IconPhrase}
-              nightTitle={city.Night.IconPhrase}
-              img={city.WeatherIcon}
-              backImg={city.backImg}
-              Temperature={city.Temperature}
-            />
-          ))}
+          {weekData.map((city: any, index: number) => {
+            return <Card key={city.Link} id={index} />;
+          })}
         </WeekCardWrapper>
       </CardWrapper>
     </MainWrapper>

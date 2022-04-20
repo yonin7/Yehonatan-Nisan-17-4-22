@@ -1,43 +1,45 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { allData } from '../store';
 import { Container } from './CardStyles';
-import pic from '../images/38.png';
 
-const Card: React.FC<{
-  celsius: boolean;
-  day: string;
-  dayTitle: string;
-  nightTitle: string;
-  img: string;
-  backImg: string;
-  Temperature: {
-    Maximum: {
-      Value: number;
-      Unit: string;
-    };
-    Minimum: {
-      Value: number;
-      Unit: string;
-    };
-  };
-}> = (props) => {
+const Card: React.FC<{ id: number }> = (props) => {
+  const { weekData, currentData, isCelsius } = useSelector(allData);
   const [minDegrees, setMinDegree] = useState(0);
   const [maxDegrees, setMaxDegree] = useState(0);
 
-  const { celsius } = props;
   useEffect(() => {
-    if (celsius) {
-      setMinDegree(Math.round((props.Temperature.Minimum.Value - 32) * 0.5556));
-      setMaxDegree(Math.round((props.Temperature.Maximum.Value - 32) * 0.5556));
+    if (isCelsius) {
+      setMinDegree(
+        Math.round((weekData[props.id].Temperature.Minimum.Value - 32) * 0.5556)
+      );
+      setMaxDegree(
+        Math.round((weekData[props.id].Temperature.Maximum.Value - 32) * 0.5556)
+      );
     } else {
-      setMinDegree(props.Temperature.Minimum.Value);
-      setMaxDegree(props.Temperature.Maximum.Value);
+      setMinDegree(weekData[props.id].Temperature.Minimum.Value);
+      setMaxDegree(weekData[props.id].Temperature.Maximum.Value);
     }
-  }, [celsius]);
+  }, [isCelsius, weekData, setMaxDegree, setMinDegree]);
+
+  let img =
+    parseInt(weekData[props.id].Night.Icon) < 9
+      ? `0${weekData[props.id].Night.Icon}`
+      : weekData[props.id].Night.Icon;
+  if (currentData.IsDayTime) {
+    img =
+      parseInt(weekData[props.id].Day.Icon) < 9
+        ? `0${weekData[props.id].Day.Icon}`
+        : weekData[props.id].Day.Icon;
+  }
 
   return (
     <Container>
-      <h5>{props.day}</h5>
-      <img src={pic} style={{ width: '5rem', height: '5rem' }} />
+      <h5>{weekData[props.id].Date}</h5>
+      <img
+        src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
+        style={{ width: '8rem', height: '5rem' }}
+      />
       <span>
         {`${maxDegrees}`}-{`${minDegrees}`}
       </span>

@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { allData } from '../store';
+
 import { fetchCurrentWeather, fetchWeekWeather } from '../store/actions';
 import {
   Container,
-  Temperature,
+  Temperatures,
   TemperatureContainer,
+  DeatailsContainer,
 } from './CurrentWeatherCardStyles';
 
 const CurrentWeatherCard: React.FC<{
@@ -13,68 +16,55 @@ const CurrentWeatherCard: React.FC<{
 }> = (props) => {
   const dispatch = useDispatch();
 
-  const { currentData }: any = useSelector<{
-    weather: { currentData: string[] };
-  }>((state) => state.weather);
+  const { currentData, isCelsius } = useSelector(allData);
+  const [temperatureDegrees, setTemperatureDegrees] = useState(0);
 
-  const { isCelsius }: any = useSelector<{
-    weather: { isCelsius: boolean };
-  }>((state) => state.weather);
+  const { Temperature } = currentData;
 
-  const { weekData }: any = useSelector<{ weather: { weekData: string[] } }>(
-    (state) => state.weather
-  );
-  const [cityName, setdegree] = useState(0);
-
-  // const { celsius } = props;
   useEffect(() => {
     const defaultCity = { LocalizedName: 'Tel Aviv', Key: '215854' };
     dispatch(fetchCurrentWeather(defaultCity) as any);
     dispatch(fetchWeekWeather(defaultCity) as any);
+    if (isCelsius) {
+      setTemperatureDegrees(Math.round(Temperature?.Metric?.Value));
+    } else {
+      setTemperatureDegrees(Math.round(Temperature?.Imperial?.Value));
+    }
   }, []);
+
+  useEffect(() => {
+    if (isCelsius) {
+      setTemperatureDegrees(Math.round(Temperature?.Metric?.Value));
+    } else {
+      setTemperatureDegrees(Math.round(Temperature?.Imperial?.Value));
+    }
+  }, [isCelsius, Temperature, dispatch]);
+
+  const img =
+    parseInt(currentData.WeatherIcon) < 9
+      ? `0${currentData.WeatherIcon}`
+      : currentData.WeatherIcon;
 
   return (
     <Container>
-      <div>
+      <DeatailsContainer>
         <h4>{props.city ? props.city : 'Tel Aviv'}</h4>
         <p>{currentData.LocalObservationDateTime}</p>
-        <img
-          src={`/images/weathericons/${weekData.WeatherIcon}.svg`}
-          style={{ width: '5rem', height: '5rem' }}
-        />
-        <h4>{currentData.WeatherText}</h4>
-      </div>
+        {!img ? null : (
+          <img
+            src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
+            style={{ width: '13rem', height: '8rem' }}
+          />
+        )}
+        <h4>{currentData.WeatherText ? currentData.WeatherText : null}</h4>
+      </DeatailsContainer>
       <TemperatureContainer>
-        <Temperature>
-          {isCelsius
-            ? Math.round(currentData.Temperature?.Metric?.Value)
-            : Math.round(currentData.Temperature?.Imperial?.Value)}
-        </Temperature>
+        <Temperatures>
+          {temperatureDegrees ? temperatureDegrees : 0}
+        </Temperatures>
       </TemperatureContainer>
     </Container>
   );
 };
 
 export default CurrentWeatherCard;
-
-// import { useDispatch } from 'react-redux';
-
-// const Card: React.FC<{
-//   title: string;
-//   img: string;
-//   backImg: string;
-//   degrees: number;
-// }> = (props) => {
-//   return (
-//     <div>
-//       <h3>{props.day}</h3>
-//       <div>
-//         <img src={props.img} />
-//         <span>{props.degrees}c</span>
-//       </div>
-//       <h3>{props.title}</h3>
-//     </div>
-//   );
-// };
-
-// export default Card;
