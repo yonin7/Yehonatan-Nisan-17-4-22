@@ -47,7 +47,7 @@ const Notification = () => {
     <div>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        open={error}
+        open={Boolean(error)}
         autoHideDuration={1500}
         onClose={handleClose}
         action={action}

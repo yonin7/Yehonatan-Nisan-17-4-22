@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { allData } from '../store';
+import { allData, AppDispatch } from '../store';
 
 import {
   fetchCurrentWeather,
@@ -11,12 +11,13 @@ import {
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
+import { ICity, IFavoriteCity } from '../interfaces/weather';
 
 const SearchInput: React.FC<{
-  setAddToFav: (bool: boolean) => void;
-  cityData: (data: any) => void;
+  setAddToFav: (isFav: boolean) => void;
+  cityData: (data: ICity) => void;
 }> = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { cities, currentData, favorites } = useSelector(allData);
 
   const [city, setCity] = useState('');
@@ -24,7 +25,7 @@ const SearchInput: React.FC<{
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (city) {
-        dispatch(fetchCities(city) as any);
+        dispatch(fetchCities(city));
       }
     }, 400);
 
@@ -36,11 +37,19 @@ const SearchInput: React.FC<{
   const searchHandler = (location: string) => {
     setCity(location);
   };
-  const selectedCityHandler = (e: any, value: any) => {
-    props.setAddToFav(favorites.find((city: any) => value.Key === city.Key));
-    props.cityData(value);
-    dispatch(fetchCurrentWeather(value) as any);
-    dispatch(fetchWeekWeather(value) as any);
+  const selectedCityHandler = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string | ICity
+  ) => {
+    event.preventDefault();
+
+    const selectedCity = value as ICity;
+    props.setAddToFav(
+      favorites.some((city: IFavoriteCity) => selectedCity.Key === city.Key)
+    );
+    props.cityData(selectedCity);
+    dispatch(fetchCurrentWeather(selectedCity));
+    dispatch(fetchWeekWeather(selectedCity));
   };
   return (
     <Stack spacing={2} sx={{ width: '100%' }} style={{ color: '#fff' }}>
@@ -50,7 +59,7 @@ const SearchInput: React.FC<{
         id="free-solo-2-demo"
         disableClearable
         options={cities}
-        getOptionLabel={(option: any) =>
+        getOptionLabel={(option: ICity) =>
           `${option.LocalizedName},${option.Country.LocalizedName}`
         }
         renderInput={(params) => (
@@ -62,8 +71,8 @@ const SearchInput: React.FC<{
               ...params.InputProps,
               type: 'search',
               style: {
-                border: currentData.isDayTime ? 'none' : '1px solid #fff',
-                color: currentData.isDayTime ? 'none' : '#fff',
+                border: currentData.IsDayTime ? 'none' : '1px solid #fff',
+                color: currentData.IsDayTime ? 'none' : '#fff',
               },
             }}
             onChange={(e) => searchHandler(e.target.value)}

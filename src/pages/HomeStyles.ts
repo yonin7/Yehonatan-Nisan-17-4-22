@@ -16,22 +16,26 @@ export const MainWrapper = styled.div<mainProps>`
   width: 100%;
   height: 90vh;
   &:before {
-    content: '';
     background-image: ${(props) => `url(${props.main})`};
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     z-index: -10;
   }
 
   @media (max-width: 940px) {
     height: 100%;
     margin-top: 3.5rem;
+    &:before {
+      height: 100%;
+      background-image: none;
+    }
   }
   @media (max-height: 868px) {
     margin-top: 3.5rem;

@@ -4,11 +4,12 @@ import { allData } from '../store';
 
 import FavoritesCard from '../components/FavoritesCard';
 import { MainWrapper, CardsContainer, Cards } from './FavoritesStyles';
+import { IFavoriteCity } from '../interfaces/weather';
 
 const Favorites = () => {
   const history = useHistory();
   const { favorites } = useSelector(allData);
-  const openCardHandler = (city: any) => {
+  const openCardHandler = (city: IFavoriteCity) => {
     history.push('/', { city });
   };
   const defaultCity = { LocalizedName: 'Tel Aviv', Key: '215854' };
@@ -16,7 +17,7 @@ const Favorites = () => {
   return (
     <MainWrapper>
       <CardsContainer>
-        {favorites.map((city: any) => {
+        {favorites.map((city: IFavoriteCity) => {
           return (
             <Cards
               key={city.Key ? city.LocalizedName : defaultCity.Key}

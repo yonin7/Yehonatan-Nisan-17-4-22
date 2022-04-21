@@ -1,7 +1,8 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { weatherActions } from './slices/weather';
 
 export const fetchCities = (location: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     const fetchCitiesData = async () => {
       const fetchCity = await fetch(
         `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=DJ4Ky1dvEwgwizmB1SEA5wtsl1RlrxmM&q=${location}`
@@ -21,7 +22,7 @@ export const fetchCities = (location: string) => {
         dispatch(weatherActions.errorToggle('City was not found!'));
         return;
       }
-      dispatch(weatherActions.loadCitiesData(citiesData) as any);
+      dispatch(weatherActions.loadCitiesData(citiesData));
     } catch (err) {
       dispatch(weatherActions.errorToggle('Server Problem!'));
     }
@@ -32,7 +33,7 @@ export const fetchCurrentWeather = (location: {
   Key: string;
   LocalizedName: string;
 }) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
@@ -55,7 +56,7 @@ export const fetchCurrentWeather = (location: {
         return;
       }
 
-      dispatch(weatherActions.loadCurrentData(weatherData[0]) as any);
+      dispatch(weatherActions.loadCurrentData(weatherData[0]));
     } catch (err) {
       dispatch(weatherActions.errorToggle('Server Problem!'));
     }
@@ -65,7 +66,7 @@ export const fetchWeekWeather = (location: {
   Key: string;
   LocalizedName: string;
 }) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
@@ -86,7 +87,7 @@ export const fetchWeekWeather = (location: {
         );
         return;
       }
-      dispatch(weatherActions.loadWeekData(weatherData) as any);
+      dispatch(weatherActions.loadWeekData(weatherData));
     } catch (err) {
       dispatch(weatherActions.errorToggle('Server Problem!'));
     }

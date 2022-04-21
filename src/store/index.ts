@@ -13,4 +13,6 @@ type RootState = ReturnType<typeof store.getState>;
 
 export const allData = (state: RootState) => state.weather;
 
+export type AppDispatch = typeof store.dispatch;
+
 export default store;

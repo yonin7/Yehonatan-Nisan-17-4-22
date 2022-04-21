@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { allData } from '../store';
+import { allData, AppDispatch } from '../store';
 
 import Card from '../components/Card';
 import CurrentWeatherCard from '../components/CurrentWeatherCard';
@@ -17,14 +17,20 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { weatherActions } from '../store/slices/weather';
-import Skeleton from '@mui/material/Skeleton';
+import { dayGifs, nigthGifs } from '../consts/urls';
+import { ICity, IFavoriteCity, IWeekDay } from '../interfaces/weather';
+
+interface ILocation {
+  state: {
+    city: ICity;
+  };
+}
 
 const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const location: any = useLocation();
-  const { weekData, currentData, dayGifs, nigthGifs, favorites } =
-    useSelector(allData);
+  const location: ILocation = useLocation();
+  const { weekData, currentData, favorites } = useSelector(allData);
   const [mainImg, setMainImg] = useState('');
   const [cityImg, setCityImg] = useState(
     'https://images.jpost.com/image/upload/f_auto,fl_lossy/t_JM_ArticleMainImageFaceDetect/453218'
@@ -32,13 +38,13 @@ const Home = () => {
   const [weatherImg, setWeatherImg] = useState(
     'https://64.media.tumblr.com/5a49546c22cc7dc5eeda64f34c8ee16b/tumblr_nlka5wXM4a1srpztwo1_500.gifv'
   );
-  const [cityData, setCityData] = useState({} as any);
+  const [cityData, setCityData] = useState({} as ICity);
 
   const { state } = location;
   useEffect(() => {
     if (state) {
-      dispatch(fetchCurrentWeather(state.city) as any);
-      dispatch(fetchWeekWeather(state.city) as any);
+      dispatch(fetchCurrentWeather(state.city));
+      dispatch(fetchWeekWeather(state.city));
     }
   }, [state, dispatch]);
 
@@ -108,7 +114,9 @@ const Home = () => {
 
   useEffect(() => {
     const cityInFavHandler = () => {
-      const inFav = favorites.find((city: any) => cityData.Key === city.Key);
+      const inFav = favorites.find(
+        (city: IFavoriteCity) => cityData.Key === city.Key
+      );
 
       if (addToFav && !inFav) {
         const favData = {
@@ -117,7 +125,7 @@ const Home = () => {
           temperature: currentData.Temperature.Metric.Value,
         };
 
-        dispatch(weatherActions.addToFavorites(favData) as any);
+        dispatch(weatherActions.addToFavorites(favData));
         return;
       } else if (!addToFav && inFav) {
         setAddToFav(true);
@@ -148,51 +156,41 @@ const Home = () => {
         </Grid>
       </Box>
       <CardWrapper weather={weatherImg} city={cityImg}>
-        {currentData ? (
-          <div
-            style={{
-              width: '85%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              position: 'absolute',
-              top: '1rem',
-              zIndex: '2',
-            }}
-          >
-            {addToFav ? (
-              <FavoriteIcon onClick={favoriteToggleHandler} />
-            ) : (
-              <FavoriteBorderIcon onClick={favoriteToggleHandler} />
-            )}
-            <FormGroup sx={{ flexDirection: 'row' }}>
-              <span>°F </span>
-              <FormControlLabel
-                control={
-                  <Switch defaultChecked onChange={degreesToggleHandler} />
-                }
-                label="C°"
-              />
-            </FormGroup>
-          </div>
-        ) : null}
-        {currentData ? (
-          <Skeleton animation="wave" />
-        ) : (
-          <CurrentWeatherCard
-            city={state ? state.city.LocalizedName : cityData.LocalizedName}
-          />
-        )}
-        {currentData ? (
-          <Skeleton animation="wave" />
-        ) : (
-          <WeekCardWrapper>
-            {weekData.map((city: any, index: number) => {
-              return <Card key={city.Link} id={index} />;
-            })}
-          </WeekCardWrapper>
-        )}
+        <div
+          style={{
+            width: '85%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            position: 'absolute',
+            top: '1rem',
+            zIndex: '2',
+          }}
+        >
+          {addToFav ? (
+            <FavoriteIcon onClick={favoriteToggleHandler} />
+          ) : (
+            <FavoriteBorderIcon onClick={favoriteToggleHandler} />
+          )}
+          <FormGroup sx={{ flexDirection: 'row' }}>
+            <span>°F </span>
+            <FormControlLabel
+              control={
+                <Switch defaultChecked onChange={degreesToggleHandler} />
+              }
+              label="C°"
+            />
+          </FormGroup>
+        </div>
+        <CurrentWeatherCard
+          city={state ? state.city.LocalizedName : cityData.LocalizedName}
+        />
+
+        <WeekCardWrapper>
+          {weekData.map((city: IWeekDay, index: number) => {
+            return <Card key={city.Link} id={index} />;
+          })}
+        </WeekCardWrapper>
       </CardWrapper>
-      )
     </MainWrapper>
   );
 };

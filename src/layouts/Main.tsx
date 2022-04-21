@@ -1,16 +1,28 @@
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Grid, Toolbar, Typography } from '@mui/material';
 import { ComponentType, ReactNode } from 'react';
-import { RouteProps, Route, NavLink } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import {
+  RouteProps,
+  Route,
+  NavLink,
+  RouteChildrenProps,
+} from 'react-router-dom';
+import { allData } from '../store';
+import HomeIcon from '@mui/icons-material/Home';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 interface IMainProps {
   children: ReactNode;
 }
 
 interface IRouteMainLayoutWrapper extends RouteProps {
-  component: ComponentType<any>;
+  component: ComponentType<RouteChildrenProps>;
 }
 
 const Main = ({ children }: IMainProps) => {
+  const { currentData } = useSelector(allData);
+
+  const { IsDayTime } = currentData;
+
   return (
     <>
       <Box
@@ -18,15 +30,38 @@ const Main = ({ children }: IMainProps) => {
           flowGrow: 1,
         }}
       >
-        <AppBar position="static">
+        <AppBar
+          position="sticky"
+          sx={{
+            backgroundColor: IsDayTime ? '#2D83C6' : '#03132C',
+          }}
+        >
           <Toolbar>
-            <Typography variant="h6">Herolo Home Assignment!</Typography>
-            <NavLink to="/">
-              <Button style={{ color: 'white' }}>Home</Button>
-            </NavLink>
-            <NavLink to="/Favorites">
-              <Button style={{ color: 'white' }}>Favorites</Button>
-            </NavLink>
+            <Grid container justifyContent={'space-between'}>
+              <Grid item>
+                <Typography variant="h6">Herolo Home Assignment!</Typography>
+              </Grid>
+              <Grid item>
+                <NavLink to="/">
+                  <Button
+                    style={{ color: 'white' }}
+                    variant="outlined"
+                    startIcon={<HomeIcon />}
+                  >
+                    Home
+                  </Button>
+                </NavLink>
+                <NavLink to="/Favorites">
+                  <Button
+                    style={{ color: 'white' }}
+                    variant="outlined"
+                    startIcon={<FavoriteIcon />}
+                  >
+                    Favorites
+                  </Button>
+                </NavLink>
+              </Grid>
+            </Grid>
           </Toolbar>
         </AppBar>
       </Box>

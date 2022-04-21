@@ -1,10 +1,11 @@
+import { Skeleton } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { allData } from '../store';
 import { Container } from './CardStyles';
 
 const Card: React.FC<{ id: number }> = (props) => {
-  const { weekData, currentData, isCelsius } = useSelector(allData);
+  const { weekData, currentData, isCelsius, loading } = useSelector(allData);
   const [minDegrees, setMinDegree] = useState(0);
   const [maxDegrees, setMaxDegree] = useState(0);
 
@@ -23,27 +24,39 @@ const Card: React.FC<{ id: number }> = (props) => {
   }, [isCelsius, weekData, setMaxDegree, setMinDegree, props]);
 
   let img =
-    parseInt(weekData[props.id].Night.Icon) < 9
+    weekData[props.id].Night.Icon < 9
       ? `0${weekData[props.id].Night.Icon}`
       : weekData[props.id].Night.Icon;
   if (currentData.IsDayTime) {
     img =
-      parseInt(weekData[props.id].Day.Icon) < 9
+      weekData[props.id].Day.Icon < 9
         ? `0${weekData[props.id].Day.Icon}`
         : weekData[props.id].Day.Icon;
   }
 
   return (
     <Container>
-      <h5>{weekData[props.id].Date}</h5>
-      <img
-        src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
-        alt="weather icon"
-        style={{ width: '8rem', height: '5rem' }}
-      />
-      <span>
-        {`${maxDegrees}`}-{`${minDegrees}`}
-      </span>
+      {loading ? (
+        <Skeleton
+          sx={{ bgcolor: '#ffffff2c', borderRadius: '1rem' }}
+          width={150}
+          variant="rectangular"
+          height={200}
+          animation="wave"
+        />
+      ) : (
+        <>
+          <h5>{weekData[props.id].Date}</h5>
+          <img
+            src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
+            alt="weather icon"
+            style={{ width: '8rem', height: '5rem' }}
+          />
+          <span>
+            {`${maxDegrees}`}-{`${minDegrees}`}
+          </span>
+        </>
+      )}
     </Container>
   );
 };
