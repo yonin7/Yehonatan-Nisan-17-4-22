@@ -52,7 +52,9 @@ const Notification = () => {
         onClose={handleClose}
         action={action}
       >
-        <Alert severity="error">{notification.message}</Alert>
+        <Alert severity="error">
+          {notification.message ? notification.message : null}
+        </Alert>
       </Snackbar>
     </div>
   );
