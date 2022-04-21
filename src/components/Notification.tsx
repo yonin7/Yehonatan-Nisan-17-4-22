@@ -17,7 +17,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 const Notification = () => {
   const dispatch = useDispatch();
-  const { notification } = useSelector(allData);
+  const { message } = useSelector(allData);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -47,14 +47,12 @@ const Notification = () => {
     <div>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        open={Boolean(notification.message)}
+        open={Boolean(message)}
         autoHideDuration={1500}
         onClose={handleClose}
         action={action}
       >
-        <Alert severity="error">
-          {notification.message ? notification.message : null}
-        </Alert>
+        <Alert severity="error">{message}</Alert>
       </Snackbar>
     </div>
   );

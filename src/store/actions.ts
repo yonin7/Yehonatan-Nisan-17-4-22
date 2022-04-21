@@ -1,12 +1,11 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { weatherActions } from './slices/weather';
 
-let notification = { message: '', severity: '' };
 export const fetchCities = (location: string) => {
   return async (dispatch: Dispatch) => {
     const fetchCitiesData = async () => {
       const fetchCity = await fetch(
-        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=oZQjGkvqAbBJuX7Cg4qkYO5dEDwWkYMi&q=${location}`
+        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=njdKySRm8AS1RDZuENAHjAjIjeihcoTY&q=${location}`
       );
       console.log(fetchCity);
 
@@ -18,17 +17,12 @@ export const fetchCities = (location: string) => {
     try {
       const citiesData = await fetchCitiesData();
       if (!citiesData || citiesData.length === 0) {
-        notification.message = 'City was not found!';
-        notification.severity = 'error';
-
-        dispatch(weatherActions.errorToggle(notification));
+        dispatch(weatherActions.errorToggle('City was not found!'));
         return;
       }
       dispatch(weatherActions.loadCitiesData(citiesData));
     } catch (err) {
-      notification.message = 'Server Problem!';
-      notification.severity = 'error';
-      dispatch(weatherActions.errorToggle(notification));
+      dispatch(weatherActions.errorToggle('Server Problem!'));
     }
   };
 };
@@ -41,7 +35,7 @@ export const fetchCurrentWeather = (location: {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=oZQjGkvqAbBJuX7Cg4qkYO5dEDwWkYMi`
+        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=njdKySRm8AS1RDZuENAHjAjIjeihcoTY`
       );
 
       const data = await response.json();
@@ -52,18 +46,17 @@ export const fetchCurrentWeather = (location: {
     try {
       const weatherData = await fetchData();
       if (!weatherData || weatherData.length === 0) {
-        notification.message =
-          'Could not reach the current weather for this city!';
-        notification.severity = 'error';
-        dispatch(weatherActions.errorToggle(notification));
+        dispatch(
+          weatherActions.errorToggle(
+            'Could not reach the current weather for this city!'
+          )
+        );
         return;
       }
 
       dispatch(weatherActions.loadCurrentData(weatherData[0]));
     } catch (err) {
-      notification.message = 'Server Problem!';
-      notification.severity = 'error';
-      dispatch(weatherActions.errorToggle(notification));
+      dispatch(weatherActions.errorToggle('Server Problem!'));
     }
   };
 };
@@ -75,7 +68,7 @@ export const fetchWeekWeather = (location: {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
-        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=oZQjGkvqAbBJuX7Cg4qkYO5dEDwWkYMi`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=njdKySRm8AS1RDZuENAHjAjIjeihcoTY`
       );
 
       const data = await response.json();
@@ -85,17 +78,16 @@ export const fetchWeekWeather = (location: {
     try {
       const weatherData = await fetchData();
       if (!weatherData || weatherData.length === 0) {
-        notification.message =
-          'Could not reach weather of the next 5 days for this city!';
-        notification.severity = 'error';
-        dispatch(weatherActions.errorToggle(notification));
+        dispatch(
+          weatherActions.errorToggle(
+            'Could not reach weather of the next 5 days for this city!'
+          )
+        );
         return;
       }
       dispatch(weatherActions.loadWeekData(weatherData));
     } catch (err) {
-      notification.message = 'Server Problem!';
-      notification.severity = 'error';
-      dispatch(weatherActions.errorToggle(notification));
+      dispatch(weatherActions.errorToggle('Server Problem!'));
     }
   };
 };
