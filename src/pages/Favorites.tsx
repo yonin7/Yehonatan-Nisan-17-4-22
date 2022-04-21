@@ -24,7 +24,7 @@ const Favorites = () => {
               onClick={() => openCardHandler(city)}
             >
               <FavoritesCard
-                Key={city.Key ? city.LocalizedName : defaultCity.Key}
+                Key={city.Key ? city.Key : defaultCity.Key}
                 LocalizedName={
                   city.LocalizedName
                     ? city.LocalizedName

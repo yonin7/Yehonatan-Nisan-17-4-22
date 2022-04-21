@@ -45,6 +45,5 @@ export interface ICity {
 export interface IFavoriteCity {
   Key: string;
   LocalizedName: string;
-  weather: string;
   temperature: number;
 }

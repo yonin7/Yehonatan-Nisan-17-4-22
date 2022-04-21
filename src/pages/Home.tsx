@@ -14,11 +14,10 @@ import Grid from '@mui/material/Grid';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import { weatherActions } from '../store/slices/weather';
 import { dayGifs, nigthGifs } from '../consts/urls';
 import { ICity, IFavoriteCity, IWeekDay } from '../interfaces/weather';
+import SwitchButton from '../components/SwitchButton';
 
 interface ILocation {
   state: {
@@ -32,9 +31,9 @@ const Home = () => {
   const location: ILocation = useLocation();
   const { weekData, currentData, favorites } = useSelector(allData);
   const [mainImg, setMainImg] = useState('');
-  const [cityImg, setCityImg] = useState(
-    'https://images.jpost.com/image/upload/f_auto,fl_lossy/t_JM_ArticleMainImageFaceDetect/453218'
-  );
+  const cityImg =
+    'https://images.jpost.com/image/upload/f_auto,fl_lossy/t_JM_ArticleMainImageFaceDetect/453218';
+
   const [weatherImg, setWeatherImg] = useState(
     'https://64.media.tumblr.com/5a49546c22cc7dc5eeda64f34c8ee16b/tumblr_nlka5wXM4a1srpztwo1_500.gifv'
   );
@@ -100,16 +99,15 @@ const Home = () => {
         setWeatherImg(nigthGifs.swon);
       }
     }
-  }, [dispatch, currentData, nigthGifs, dayGifs]);
+  }, [dispatch, currentData]);
 
   const [addToFav, setAddToFav] = useState(false);
 
   const favoriteToggleHandler = () => {
     setAddToFav(!addToFav);
-  };
-
-  const degreesToggleHandler = () => {
-    dispatch(weatherActions.temperatureToggle());
+    if (addToFav) {
+      dispatch(weatherActions.removeFromFavorites(cityData));
+    }
   };
 
   useEffect(() => {
@@ -117,6 +115,7 @@ const Home = () => {
       const inFav = favorites.find(
         (city: IFavoriteCity) => cityData.Key === city.Key
       );
+      console.log(inFav);
 
       if (addToFav && !inFav) {
         const favData = {
@@ -172,13 +171,7 @@ const Home = () => {
             <FavoriteBorderIcon onClick={favoriteToggleHandler} />
           )}
           <FormGroup sx={{ flexDirection: 'row' }}>
-            <span>°F </span>
-            <FormControlLabel
-              control={
-                <Switch defaultChecked onChange={degreesToggleHandler} />
-              }
-              label="C°"
-            />
+            <SwitchButton isDarkMode={false} />
           </FormGroup>
         </div>
         <CurrentWeatherCard

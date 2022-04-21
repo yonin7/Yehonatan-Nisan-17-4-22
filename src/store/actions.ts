@@ -1,11 +1,12 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { weatherActions } from './slices/weather';
 
+let notification = { message: '', severity: '' };
 export const fetchCities = (location: string) => {
   return async (dispatch: Dispatch) => {
     const fetchCitiesData = async () => {
       const fetchCity = await fetch(
-        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=DJ4Ky1dvEwgwizmB1SEA5wtsl1RlrxmM&q=${location}`
+        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=oZQjGkvqAbBJuX7Cg4qkYO5dEDwWkYMi&q=${location}`
       );
       console.log(fetchCity);
 
@@ -17,14 +18,17 @@ export const fetchCities = (location: string) => {
     try {
       const citiesData = await fetchCitiesData();
       if (!citiesData || citiesData.length === 0) {
-        console.log(2);
+        notification.message = 'City was not found!';
+        notification.severity = 'error';
 
-        dispatch(weatherActions.errorToggle('City was not found!'));
+        dispatch(weatherActions.errorToggle(notification));
         return;
       }
       dispatch(weatherActions.loadCitiesData(citiesData));
     } catch (err) {
-      dispatch(weatherActions.errorToggle('Server Problem!'));
+      notification.message = 'Server Problem!';
+      notification.severity = 'error';
+      dispatch(weatherActions.errorToggle(notification));
     }
   };
 };
@@ -37,7 +41,7 @@ export const fetchCurrentWeather = (location: {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=DJ4Ky1dvEwgwizmB1SEA5wtsl1RlrxmM`
+        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=oZQjGkvqAbBJuX7Cg4qkYO5dEDwWkYMi`
       );
 
       const data = await response.json();
@@ -48,17 +52,18 @@ export const fetchCurrentWeather = (location: {
     try {
       const weatherData = await fetchData();
       if (!weatherData || weatherData.length === 0) {
-        dispatch(
-          weatherActions.errorToggle(
-            'Could not reach the current weather for this city!'
-          )
-        );
+        notification.message =
+          'Could not reach the current weather for this city!';
+        notification.severity = 'error';
+        dispatch(weatherActions.errorToggle(notification));
         return;
       }
 
       dispatch(weatherActions.loadCurrentData(weatherData[0]));
     } catch (err) {
-      dispatch(weatherActions.errorToggle('Server Problem!'));
+      notification.message = 'Server Problem!';
+      notification.severity = 'error';
+      dispatch(weatherActions.errorToggle(notification));
     }
   };
 };
@@ -70,7 +75,7 @@ export const fetchWeekWeather = (location: {
     const locationKey = location.Key;
     const fetchData = async () => {
       const response = await fetch(
-        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=DJ4Ky1dvEwgwizmB1SEA5wtsl1RlrxmM`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=oZQjGkvqAbBJuX7Cg4qkYO5dEDwWkYMi`
       );
 
       const data = await response.json();
@@ -80,16 +85,17 @@ export const fetchWeekWeather = (location: {
     try {
       const weatherData = await fetchData();
       if (!weatherData || weatherData.length === 0) {
-        dispatch(
-          weatherActions.errorToggle(
-            'Could not reach weather of the next 5 days for this city!'
-          )
-        );
+        notification.message =
+          'Could not reach weather of the next 5 days for this city!';
+        notification.severity = 'error';
+        dispatch(weatherActions.errorToggle(notification));
         return;
       }
       dispatch(weatherActions.loadWeekData(weatherData));
     } catch (err) {
-      dispatch(weatherActions.errorToggle('Server Problem!'));
+      notification.message = 'Server Problem!';
+      notification.severity = 'error';
+      dispatch(weatherActions.errorToggle(notification));
     }
   };
 };

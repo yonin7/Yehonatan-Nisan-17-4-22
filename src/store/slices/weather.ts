@@ -12,7 +12,7 @@ interface IState {
   cities: ICity[];
   favorites: IFavoriteCity[];
   isCelsius: boolean;
-  error: string;
+  notification: { message: string; severity: string };
   loading: boolean;
 }
 
@@ -22,7 +22,7 @@ const initialState: IState = {
   cities: [],
   favorites: [],
   isCelsius: true,
-  error: '',
+  notification: { message: '', severity: 'error' },
   loading: true,
 };
 
@@ -53,7 +53,7 @@ const weatherSlice = createSlice({
       state.isCelsius = !state.isCelsius;
     },
     errorToggle(state, action) {
-      state.error = action.payload;
+      state.notification = action.payload;
     },
   },
 });
