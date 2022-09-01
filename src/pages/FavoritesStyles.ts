@@ -19,18 +19,18 @@ export const MainWrapper = styled.div`
 `;
 export const CardsContainer = styled.div`
   display: flex;
-  margin: 5rem;
+  margin: 5rem; \\change to PX
   min-height: 30vh;
   justify-content: flex-start;
   align-items: space-between;
-  gap: 5rem;
+  gap: 5rem; \\change to PX
   flex-wrap: wrap;
   @media (max-width: 740px) {
     flex-direction: column;
-    font-size: 0.75rem;
+    font-size: 0.75rem; \\change to PX
     height: 100%;
     margin: 0;
-    margin-top: 2rem;
+    margin-top: 2rem; \\change to PX
     flex-wrap: nowrap;
   }
 `;
@@ -39,7 +39,7 @@ export const Cards = styled.div`
   display: flex;
   flex-direction: row;
   border: 1px solid black;
-  border-radius: 1.3rem;
+  border-radius: 1.3rem; \\change to PX
   color: black;
   background-color: rgba(236, 236, 236, 0.9);
 `;

@@ -31,14 +31,14 @@ export const MainWrapper = styled.div<mainProps>`
 
   @media (max-width: 940px) {
     height: 100%;
-    margin-top: 3.5rem;
+    margin-top: 3.5rem; \\change to PX
     &:before {
       height: 100%;
       background-image: none;
     }
   }
   @media (max-height: 868px) {
-    margin-top: 3.5rem;
+    margin-top: 3.5rem; \\change to PX
     height: 100%;
     width: 95%;
   }
@@ -46,12 +46,12 @@ export const MainWrapper = styled.div<mainProps>`
 export const CardWrapper = styled.div<cardProps>`
   display: flex;
   flex-direction: column;
-  margin: 2rem;
+  margin: 2rem; \\change to PX
   position: relative;
   justify-content: space-between;
   align-items: space-between;
-  border-radius: 1.5rem;
-  padding: 2.5rem;
+  border-radius: 1.5rem; \\change to PX
+  padding: 2.5rem;\\change to PX
   max-height: 70vh;
   overflow: hidden;
 
@@ -85,14 +85,14 @@ export const CardWrapper = styled.div<cardProps>`
     z-index: -1;
   }
   @media (max-width: 940px) {
-    font-size: 0.75rem;
+    font-size: 0.75rem; 
     max-height: 100%;
     width: 75%;
     margin: 0;
-    margin-top: 2rem;
+    margin-top: 2rem; \\change to PX
   }
   @media (max-height: 868px) {
-    margin-top: 3.5rem;
+    margin-top: 3.5rem; \\change to PX
     max-height: 100%;
   }
 `;
