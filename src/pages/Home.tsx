@@ -101,7 +101,7 @@ const Home = () => {
         setWeatherImg(nigthGifs.swon);
       }
     }
-  }, [dispatch, currentData]);
+  }, [dispatch, currentData,weekData]);
 
   const [addToFav, setAddToFav] = useState(false);
 
