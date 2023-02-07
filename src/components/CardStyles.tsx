@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  width: 10rem; \\change to PX??
+  width: 10rem; 
   max-width: 100%;
   height: 100%;
   font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, 'Lucida Grande', Arial,

@@ -6,17 +6,17 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  width: 15rem; \\change to PX
+  width: 15rem;
   max-width: 100%;
   height: 100%;
   font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, 'Lucida Grande', Arial,
     Ubuntu, Cantarell, 'Fira Sans', sans-serif;
   font-width: 400;
   line-height: 20px;
-  font-size: 1.3rem; \\change to PX??
+  font-size: 1.3rem;
   color: black;
 
   @media (max-width: 740px) {
-    width: 10rem; \\change to PX??
+    width: 10rem;
   }
 `;

@@ -10,12 +10,12 @@ export const Container = styled.div`
     Ubuntu, Cantarell, 'Fira Sans', sans-serif;
   font-width: 100;
   line-height: 20px;
-  font-size: 1.2rem; \\change to PX??
+  font-size: 1.2rem;
   color: #fff;
   @media (max-width: 940px) {
     font-width: 200;
     line-height: 10px;
-    font-size: 0.85rem; \\change to PX??
+    font-size: 0.85rem;
   }
 `;
 export const DeatailsContainer = styled.div`
@@ -26,7 +26,7 @@ export const DeatailsContainer = styled.div`
   @media (max-width: 940px) {
     font-width: 200;
     line-height: 10px;
-    font-size: 0.85rem; \\change to PX
+    font-size: 0.85rem;
   }
 `;
 export const TemperatureContainer = styled.div`
@@ -44,12 +44,12 @@ export const TemperatureContainer = styled.div`
 `;
 export const Temperatures = styled.h4`
   font-width: 100;
-  font-size: 8rem; \\change to PX ??
+  font-size: 8rem;
   margin: 0;
-  padding: 3rem 0; \\change to PX
+  padding: 3rem 0; 
   @media (max-width: 940px) {
     font-width: 200;
     line-height: 10px;
-    font-size: 3.5rem; \\change to PX??
+    font-size: 3.5rem;
   }
 `;
