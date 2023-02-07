@@ -38,7 +38,8 @@ const Home = () => {
     'https://64.media.tumblr.com/5a49546c22cc7dc5eeda64f34c8ee16b/tumblr_nlka5wXM4a1srpztwo1_500.gifv'
   );
   const [cityData, setCityData] = useState({} as ICity);
-
+    
+    
   const { state } = location;
   useEffect(() => {
     if (state) {
@@ -47,55 +48,56 @@ const Home = () => {
     }
   }, [state, dispatch]);
 
+  console.log(weekData[0].Night);
   useEffect(() => {
     if (currentData.IsDayTime) {
       setMainImg(
         'https://authenticallydel.com/wp-content/uploads/2021/06/100-things-to-do-on-a-rainy-day-1024x576.jpg'
       );
-      if (currentData.WeatherIcon > 0 && currentData.WeatherIcon < 4) {
+      if (weekData[0].Day.Icon > 0 && (weekData[0].Day.Icon < 4)) {
         setWeatherImg(dayGifs.sunny);
         setMainImg(
           'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
         );
       }
-      if (currentData.WeatherIcon > 3 && currentData.WeatherIcon < 8) {
+      if ((weekData[0].Day.Icon > 3 )&& (weekData[0].Day.Icon < 8)) {
         setWeatherImg(dayGifs.clouds);
         setMainImg(
           'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
         );
       }
-      if (currentData.WeatherIcon >= 8) {
+      if ((weekData[0].Day.Icon >= 8)) {
         setWeatherImg(dayGifs.Rclouds);
       }
-      if (currentData.WeatherIcon > 11) {
+      if ((weekData[0].Day.Icon > 11)) {
         setWeatherImg(dayGifs.fog);
       }
-      if (currentData.WeatherIcon > 11 && currentData.WeatherIcon < 19) {
+      if ((weekData[0].Day.Icon > 11) && (weekData[0].Day.Icon < 19)) {
         setWeatherImg(dayGifs.rainy);
       }
-      if (currentData.WeatherIcon > 18 && currentData.WeatherIcon < 24) {
+      if ((weekData[0].Day.Icon > 18) && (weekData[0].Day.Icon < 24)) {
         setWeatherImg(dayGifs.swon);
       }
-      if (currentData.WeatherIcon > 23) {
+      if ((weekData[0].Day.Icon > 23)) {
         setWeatherImg(dayGifs.ice);
       }
     } else {
       setMainImg(
         'https://cdn.mos.cms.futurecdn.net/4ai74uN2hgWvcCsie7jxUo.jpg'
       );
-      if (currentData.WeatherIcon > 32 && currentData.WeatherIcon < 36) {
+      if ((weekData[0].Night.Icon> 32) && (weekData[0].Night.Icon < 36)) {
         setWeatherImg(nigthGifs.sunny);
       }
-      if (currentData.WeatherIcon > 35 && currentData.WeatherIcon < 39) {
+      if ((weekData[0].Night.Icon > 35) && (weekData[0].Night.Icon < 39)) {
         setWeatherImg(nigthGifs.clouds);
       }
-      if (currentData.WeatherIcon > 38 && currentData.WeatherIcon < 41) {
+      if ((weekData[0].Night.Icon > 38) && (weekData[0].Night.Icon < 41)) {
         setWeatherImg(nigthGifs.rainy);
       }
-      if (currentData.WeatherIcon > 40 && currentData.WeatherIcon < 43) {
+      if ((weekData[0].Night.Icon > 40) && (weekData[0].Night.Icon < 43)) {
         setWeatherImg(nigthGifs.storm);
       }
-      if (currentData.WeatherIcon > 42) {
+      if (weekData[0].Night.Icon > 42) {
         setWeatherImg(nigthGifs.swon);
       }
     }

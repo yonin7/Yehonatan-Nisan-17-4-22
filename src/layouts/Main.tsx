@@ -39,7 +39,7 @@ const Main = ({ children }: IMainProps) => {
           <Toolbar>
             <Grid container justifyContent={'space-between'}>
               <Grid item>
-                <Typography variant="h6">Herolo Home Assignment!</Typography>
+                <Typography variant="h6">Cities Weather</Typography>
               </Grid>
               <Grid item>
                 <NavLink to="/">
