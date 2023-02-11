@@ -57,7 +57,7 @@ const Main = ({ children }: IMainProps) => {
                     variant="outlined"
                     startIcon={<FavoriteIcon />}
                   >
-                    Favorites
+                    My Favorites
                   </Button>
                 </NavLink>
               </Grid>

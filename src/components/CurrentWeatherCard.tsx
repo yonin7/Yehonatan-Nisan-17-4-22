@@ -66,7 +66,7 @@ const CurrentWeatherCard: React.FC<{
         <>
           <DeatailsContainer>
             <h4>{props.city ? props.city : 'Tel Aviv'}</h4>
-            <p>{displayedDate? displayedDate: currentData.LocalObservationDateTime}</p>
+            <p>{displayedDate? `Date: ${displayedDate}`: `Date: ${currentData.LocalObservationDateTime}`}</p>
             {!img ? null : (
               <img
                 src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
@@ -74,11 +74,11 @@ const CurrentWeatherCard: React.FC<{
                 style={{ width: '13rem', height: '8rem' }}
               />
             )}
-            <h4>{currentData.WeatherText ? currentData.WeatherText : null}</h4>
+            <h4>{currentData.WeatherText ? `Condition: ${currentData.WeatherText} `: null}</h4>
           </DeatailsContainer>
           <TemperatureContainer>
             <Temperatures>
-              {temperatureDegrees ? temperatureDegrees : 0}
+              {temperatureDegrees ? `${temperatureDegrees}\u00B0` : 0}
             </Temperatures>
           </TemperatureContainer>
         </>

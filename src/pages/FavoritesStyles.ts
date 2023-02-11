@@ -12,7 +12,8 @@ export const MainWrapper = styled.div`
   background-position: center;
   background-size: cover;
   @media (max-width: 740px) {
-    background-image: url(https://www.practiceportuguese.com/wp-content/uploads/2017/03/Seasons-of-the-Year.jpg)};
+    // background-image: url(https://www.practiceportuguese.com/wp-content/uploads/2017/03/Seasons-of-the-Year.jpg)};
+    background-image: url(https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)};
     height: 100%;
     background-repeat: repeat;
   }

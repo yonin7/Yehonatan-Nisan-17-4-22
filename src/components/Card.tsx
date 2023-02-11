@@ -58,7 +58,7 @@ const Card: React.FC<{ id: number }> = (props) => {
             style={{ width: '8rem', height: '5rem' }}
           />
           <span>
-            {`${maxDegrees}`}-{`${minDegrees}`}
+            {`${maxDegrees}\u00B0`}-{`${minDegrees}\u00B0`}
           </span>
         </>
       )}
