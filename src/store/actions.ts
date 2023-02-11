@@ -7,8 +7,6 @@ export const fetchCities = (location: string) => {
       const fetchCity = await fetch(
         `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GbyhLo5LxiyDbG7icJTLOwCJQ0uvt3hw&q=${location}`
       );
-      console.log(fetchCity);
-
       const cityData = await fetchCity.json();
 
       return cityData;
