@@ -49,61 +49,61 @@ const Home = () => {
   }, [state, dispatch]);
 
   useEffect(() => {
-    let displayDay 
-    weekData[0]?.Night? displayDay=weekData[0]?.Night : displayDay=currentData.WeatherIcon
+    // let displayDay 
+    // weekData[0]?.Night? displayDay=weekData[0]?.Night : displayDay=currentData.WeatherIcon
     if (currentData.IsDayTime) {
-      weekData[0]?.Day? displayDay=weekData[0]?.Day : displayDay=currentData.WeatherIcon
+      // weekData[0]?.Day? displayDay=weekData[0]?.Day : displayDay=currentData.WeatherIcon
       setMainImg(
         'https://authenticallydel.com/wp-content/uploads/2021/06/100-things-to-do-on-a-rainy-day-1024x576.jpg'
       );
-      if (displayDay > 0 && (displayDay < 4)) {
+      if (currentData.WeatherIcon > 0 && (currentData.WeatherIcon < 4)) {
         setWeatherImg(dayGifs.sunny);
         setMainImg(
           'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
         );
       }
-      if ((displayDay > 3 )&& (displayDay < 8)) {
+      if ((currentData.WeatherIcon > 3 )&& (currentData.WeatherIcon < 8)) {
         setWeatherImg(dayGifs.clouds);
         setMainImg(
           'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
         );
       }
-      if ((displayDay >= 8)) {
+      if ((currentData.WeatherIcon >= 8)) {
         setWeatherImg(dayGifs.Rclouds);
       }
-      if ((displayDay > 11)) {
+      if ((currentData.WeatherIcon > 11)) {
         setWeatherImg(dayGifs.fog);
       }
-      if ((displayDay > 11) && (displayDay < 19)) {
+      if ((currentData.WeatherIcon > 11) && (currentData.WeatherIcon < 19)) {
         setWeatherImg(dayGifs.rainy);
       }
-      if ((displayDay > 18) && (displayDay < 24)) {
+      if ((currentData.WeatherIcon > 18) && (currentData.WeatherIcon < 24)) {
         setWeatherImg(dayGifs.swon);
       }
-      if ((displayDay > 23)) {
+      if ((currentData.WeatherIcon > 23)) {
         setWeatherImg(dayGifs.ice);
       }
     } else {
       setMainImg(
         'https://cdn.mos.cms.futurecdn.net/4ai74uN2hgWvcCsie7jxUo.jpg'
       );
-      if ((displayDay> 32) && (displayDay < 36)) {
+      if ((currentData.WeatherIcon> 32) && (currentData.WeatherIcon < 36)) {
         setWeatherImg(nigthGifs.sunny);
       }
-      if ((displayDay > 35) && (displayDay < 39)) {
+      if ((currentData.WeatherIcon > 35) && (currentData.WeatherIcon < 39)) {
         setWeatherImg(nigthGifs.clouds);
       }
-      if ((displayDay > 38) && (displayDay < 41)) {
+      if ((currentData.WeatherIcon > 38) && (currentData.WeatherIcon < 41)) {
         setWeatherImg(nigthGifs.rainy);
       }
-      if ((displayDay > 40) && (displayDay < 43)) {
+      if ((currentData.WeatherIcon > 40) && (currentData.WeatherIcon < 43)) {
         setWeatherImg(nigthGifs.storm);
       }
-      if (displayDay > 42) {
+      if (currentData.WeatherIcon > 42) {
         setWeatherImg(nigthGifs.swon);
       }
     }
-  }, [dispatch, currentData,weekData]);
+  }, [dispatch, currentData]);
 
   const [addToFav, setAddToFav] = useState(false);
 
