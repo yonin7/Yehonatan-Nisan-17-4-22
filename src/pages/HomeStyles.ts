@@ -14,7 +14,8 @@ export const MainWrapper = styled.div<mainProps>`
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 90vh;
+  min-height: 90vh;
+  height: 100%;
   &:before {
     background-image: ${(props) => `url(${props.main})`};
     background-position: center;
@@ -25,7 +26,7 @@ export const MainWrapper = styled.div<mainProps>`
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     z-index: -10;
   }
 
@@ -33,14 +34,20 @@ export const MainWrapper = styled.div<mainProps>`
     height: 100%;
     margin-top: 3.5rem; 
     &:before {
-      height: 100%;
-      background-image: none;
+      height: 190%;
     }
   }
   @media (max-height: 868px) {
     margin-top: 3.5rem; 
     height: 100%;
     width: 95%;
+
+  }
+  @media (max-width: 380px) {
+
+    &:before {
+      height: 240%;
+    }
   }
 `;
 export const CardWrapper = styled.div<cardProps>`

@@ -48,7 +48,7 @@ const Home = () => {
     }
   }, [state, dispatch]);
 
-  console.log(weekData[0].Night);
+  // console.log(weekData[0].Night);
   useEffect(() => {
     if (currentData.IsDayTime) {
       setMainImg(
@@ -85,23 +85,23 @@ const Home = () => {
       setMainImg(
         'https://cdn.mos.cms.futurecdn.net/4ai74uN2hgWvcCsie7jxUo.jpg'
       );
-      if ((weekData[0].Night.Icon> 32) && (weekData[0].Night.Icon < 36)) {
+      if ((currentData.WeatherIcon> 32) && (currentData.WeatherIcon < 36)) {
         setWeatherImg(nigthGifs.sunny);
       }
-      if ((weekData[0].Night.Icon > 35) && (weekData[0].Night.Icon < 39)) {
+      if ((currentData.WeatherIcon > 35) && (currentData.WeatherIcon < 39)) {
         setWeatherImg(nigthGifs.clouds);
       }
-      if ((weekData[0].Night.Icon > 38) && (weekData[0].Night.Icon < 41)) {
+      if ((currentData.WeatherIcon > 38) && (currentData.WeatherIcon < 41)) {
         setWeatherImg(nigthGifs.rainy);
       }
-      if ((weekData[0].Night.Icon > 40) && (weekData[0].Night.Icon < 43)) {
+      if ((currentData.WeatherIcon > 40) && (currentData.WeatherIcon < 43)) {
         setWeatherImg(nigthGifs.storm);
       }
-      if (weekData[0].Night.Icon > 42) {
+      if (currentData.WeatherIcon > 42) {
         setWeatherImg(nigthGifs.swon);
       }
     }
-  }, [dispatch, currentData,weekData]);
+  }, [dispatch, currentData]);
 
   const [addToFav, setAddToFav] = useState(false);
 

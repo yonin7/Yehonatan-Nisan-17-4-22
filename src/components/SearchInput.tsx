@@ -12,6 +12,9 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import { ICity, IFavoriteCity } from '../interfaces/weather';
+import { maxWidth } from '@mui/system';
+
+
 
 const SearchInput: React.FC<{
   setAddToFav: (isFav: boolean) => void;
@@ -52,7 +55,7 @@ const SearchInput: React.FC<{
     dispatch(fetchWeekWeather(selectedCity));
   };
   return (
-    <Stack spacing={2} sx={{ width: '100%' }} style={{ color: '#fff' }}>
+    <Stack spacing={2} sx={{ width: '100%' }} style={{ color: '#fff' }} >
       <Autocomplete
         onChange={selectedCityHandler}
         freeSolo
