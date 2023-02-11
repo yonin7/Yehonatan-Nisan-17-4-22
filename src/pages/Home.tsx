@@ -48,12 +48,11 @@ const Home = () => {
     }
   }, [state, dispatch]);
 
-  // console.log(weekData[0]);
   useEffect(() => {
-    let displayDay 
-    weekData[0]?.Night? displayDay=weekData[0]?.Night : displayDay=currentData.WeatherIcon
+    // let displayDay 
+    // weekData[0]?.Night? displayDay=weekData[0]?.Night : displayDay=currentData.WeatherIcon
     if (currentData.IsDayTime) {
-      weekData[0]?.Day? displayDay=weekData[0]?.Day : displayDay=currentData.WeatherIcon
+      // weekData[0]?.Day? displayDay=weekData[0]?.Day : displayDay=currentData.WeatherIcon
       setMainImg(
         'https://authenticallydel.com/wp-content/uploads/2021/06/100-things-to-do-on-a-rainy-day-1024x576.jpg'
       );
@@ -120,7 +119,6 @@ const Home = () => {
       const inFav = favorites.find(
         (city: IFavoriteCity) => cityData.Key === city.Key
       );
-      console.log(inFav);
 
       if (addToFav && !inFav) {
         const favData = {

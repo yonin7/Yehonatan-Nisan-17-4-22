@@ -12,7 +12,6 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import { ICity, IFavoriteCity } from '../interfaces/weather';
-import { maxWidth } from '@mui/system';
 
 
 
