@@ -28,7 +28,6 @@ const Card: React.FC<{ id: number }> = (props) => {
     const newDate = `${convertedDate[2]}/${convertedDate[1]}/${convertedDate[0]}`
     setDisplayedDate(newDate)
   },[weekData,props])
-
   let img =
     weekData[props.id].Night.Icon < 9
       ? `0${weekData[props.id].Night.Icon}`
@@ -52,7 +51,7 @@ const Card: React.FC<{ id: number }> = (props) => {
         />
       ) : (
         <>
-          <h5>{displayedDate}</h5>
+          <h5>{displayedDate?displayedDate: weekData[props.id].Date}</h5>
           <img
             src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}
             alt="weather icon"

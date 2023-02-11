@@ -38,9 +38,12 @@ const CurrentWeatherCard: React.FC<{
     }
   }, [isCelsius, Temperature, dispatch]);
   useEffect(()=>{
-    let convertedDate = currentData.LocalObservationDateTime.split('T')[0].split('-')
-    const newDate = `${convertedDate[2]}/${convertedDate[1]}/${convertedDate[0]}`
-    setDisplayedDate(newDate)
+    if(currentData.LocalObservationDateTime){
+      let convertedDate = currentData.LocalObservationDateTime?.split('T')[0].split('-')
+      const newDate = `${convertedDate[2]}/${convertedDate[1]}/${convertedDate[0]}`
+      setDisplayedDate(newDate)
+    }
+
   },[currentData])
 
 
@@ -63,7 +66,7 @@ const CurrentWeatherCard: React.FC<{
         <>
           <DeatailsContainer>
             <h4>{props.city ? props.city : 'Tel Aviv'}</h4>
-            <p>{displayedDate}</p>
+            <p>{displayedDate? displayedDate: currentData.LocalObservationDateTime}</p>
             {!img ? null : (
               <img
                 src={`https://developer.accuweather.com/sites/default/files/${img}-s.png`}

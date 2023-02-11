@@ -48,37 +48,40 @@ const Home = () => {
     }
   }, [state, dispatch]);
 
-  // console.log(weekData[0].Night);
+  // console.log(weekData[0]);
   useEffect(() => {
+    let displayDay 
+    weekData[0]?.Night? displayDay=weekData[0]?.Night : displayDay=currentData.WeatherIcon
     if (currentData.IsDayTime) {
+      weekData[0]?.Day? displayDay=weekData[0]?.Day : displayDay=currentData.WeatherIcon
       setMainImg(
         'https://authenticallydel.com/wp-content/uploads/2021/06/100-things-to-do-on-a-rainy-day-1024x576.jpg'
       );
-      if (weekData[0].Day.Icon > 0 && (weekData[0].Day.Icon < 4)) {
+      if (currentData.WeatherIcon > 0 && (currentData.WeatherIcon < 4)) {
         setWeatherImg(dayGifs.sunny);
         setMainImg(
           'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
         );
       }
-      if ((weekData[0].Day.Icon > 3 )&& (weekData[0].Day.Icon < 8)) {
+      if ((currentData.WeatherIcon > 3 )&& (currentData.WeatherIcon < 8)) {
         setWeatherImg(dayGifs.clouds);
         setMainImg(
           'https://www.daysoftheyear.com/cdn-cgi/image/dpr=1%2Cf=auto%2Cfit=cover%2Cheight=675%2Cmetadata=none%2Conerror=redirect%2Cq=85%2Cwidth=1200/wp-content/uploads/daylight-appreciation-day1-scaled.jpg'
         );
       }
-      if ((weekData[0].Day.Icon >= 8)) {
+      if ((currentData.WeatherIcon >= 8)) {
         setWeatherImg(dayGifs.Rclouds);
       }
-      if ((weekData[0].Day.Icon > 11)) {
+      if ((currentData.WeatherIcon > 11)) {
         setWeatherImg(dayGifs.fog);
       }
-      if ((weekData[0].Day.Icon > 11) && (weekData[0].Day.Icon < 19)) {
+      if ((currentData.WeatherIcon > 11) && (currentData.WeatherIcon < 19)) {
         setWeatherImg(dayGifs.rainy);
       }
-      if ((weekData[0].Day.Icon > 18) && (weekData[0].Day.Icon < 24)) {
+      if ((currentData.WeatherIcon > 18) && (currentData.WeatherIcon < 24)) {
         setWeatherImg(dayGifs.swon);
       }
-      if ((weekData[0].Day.Icon > 23)) {
+      if ((currentData.WeatherIcon > 23)) {
         setWeatherImg(dayGifs.ice);
       }
     } else {
