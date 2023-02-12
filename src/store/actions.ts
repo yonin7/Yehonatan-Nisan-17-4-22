@@ -5,7 +5,7 @@ export const fetchCities = (location: string) => {
   return async (dispatch: Dispatch) => {
     const fetchCitiesData = async () => {
       const fetchCity = await fetch(
-        `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=ajL88k0ajC7wHN63Tr9tuRNaQPLIOJF3&q=${location}`
+        `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=5NMZzWhqtIX0y9X8hBPQRzXJKUM97G64=${location}`
       );
       const cityData = await fetchCity.json();
 
