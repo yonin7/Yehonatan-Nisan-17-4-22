@@ -4,9 +4,7 @@ import { weatherActions } from './slices/weather';
 export const fetchCities = (location: string) => {
   return async (dispatch: Dispatch) => {
     const fetchCitiesData = async () => {
-      const fetchCity = await fetch(
-        `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=R1lA5tkEbwGGp5Rma1nGhaDnLSUYzsKu&q=${location}`
-      );
+      const fetchCity = await fetch(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=R1lA5tkEbwGGp5Rma1nGhaDnLSUYzsKu&q=${location}` );
       const cityData = await fetchCity.json();
 
       return cityData;
