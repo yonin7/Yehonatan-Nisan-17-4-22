@@ -41,6 +41,7 @@ const Home = () => {
     
     
   const { state } = location;
+  console.log(state)
   useEffect(() => {
     if (state) {
       dispatch(fetchCurrentWeather(state.city));
@@ -48,11 +49,12 @@ const Home = () => {
     }
   }, [state, dispatch]);
 
+  console.log(weekData[0])
   useEffect(() => {
     // let displayDay 
-    // weekData[0]?.Night? displayDay=weekData[0]?.Night : displayDay=currentData.WeatherIcon
+    // weekData[0]?.Night? displayDay=weekData[0]?.Night.Icon : displayDay=currentData.WeatherIcon
     if (currentData.IsDayTime) {
-      // weekData[0]?.Day? displayDay=weekData[0]?.Day : displayDay=currentData.WeatherIcon
+      // weekData[0]?.Day? displayDay=weekData[0]?.Day.Icon : displayDay=currentData.WeatherIcon
       setMainImg(
         'https://authenticallydel.com/wp-content/uploads/2021/06/100-things-to-do-on-a-rainy-day-1024x576.jpg'
       );
@@ -84,6 +86,7 @@ const Home = () => {
         setWeatherImg(dayGifs.ice);
       }
     } else {
+      console.log(currentData.WeatherIcon)
       setMainImg(
         'https://cdn.mos.cms.futurecdn.net/4ai74uN2hgWvcCsie7jxUo.jpg'
       );
@@ -98,12 +101,12 @@ const Home = () => {
       }
       if ((currentData.WeatherIcon > 40) && (currentData.WeatherIcon < 43)) {
         setWeatherImg(nigthGifs.storm);
-      }
+      }     
       if (currentData.WeatherIcon > 42) {
         setWeatherImg(nigthGifs.swon);
       }
     }
-  }, [dispatch, currentData]);
+  }, [dispatch, currentData,weekData]);
 
   const [addToFav, setAddToFav] = useState(false);
 
